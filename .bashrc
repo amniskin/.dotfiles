@@ -76,9 +76,9 @@ xterm*|rxvt*)
     ;;
 esac
 
-GIT_PROMPT_THEME=Single_line_custom
-GIT_PROMPT_ONLY_IN_REPO=1
-source ~/.bash-git-prompt/gitprompt.sh
+if [ -f ~/.bashgit ]; then
+  . ~/.bashgit
+fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -109,6 +109,11 @@ alias newterm='i3-sensible-terminal'
 alias apt-up='sudo apt-get update && sudo apt-get upgrade'
 
 alias git-up='git add --all && git commit'
+
+
+alias j-pdf='jupyter nbconvert --to=pdf --template=latex.tplx'
+
+alias cdd='cd ~/Documents/courses/newCollege/current/'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
