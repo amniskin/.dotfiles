@@ -16,7 +16,7 @@ set $alt Mod4
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 7
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -33,7 +33,7 @@ bindsym $mod+Return exec i3-sensible-terminal --working-directory=~/Documents/bi
 # start a terminal in amniskin/source
 
 # start chrome
-bindsym $mod+c exec chromium-browser  #google-chrome
+bindsym $mod+c exec chromium-browser # --kiosk http://google.com #google-chrome
 
 # start nautilus
 bindsym $mod+n exec nautilus --no-desktop --new-window
@@ -99,7 +99,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+Shift+a focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -174,8 +174,8 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command py3status -c ~/.i3/i3status.conf #i3status
-				position top
+	status_command py3status -c ~/.i3/i3status.conf #py3status -c ~/.i3/i3status.conf #i3status
+	position top
 }
 # Key mappings
 exec_always setxkbmap -option ctrl:swapcaps
@@ -184,39 +184,42 @@ exec_always setxkbmap -option ctrl:swapcaps
 
 # F Keys {{{
 # Disable trackpad
-bindsym XF86Explorer exec ~/.bash/bin/trackpad.sh #xinput enable 11
+bindsym XF86Explorer exec ~/.dotfiles/bin/trackpad.sh #xinput enable 11
 # bindsym XF86LaunchA exec xinput disable 11
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec ~/.bash/bin/vol-up.sh   #increase sound volume
-bindsym XF86AudioLowerVolume exec ~/.bash/bin/vol-down.sh #decrease sound volume
+bindsym XF86AudioRaiseVolume exec ~/.dotfiles/bin/vol-up.sh   #increase sound volume
+bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/vol-down.sh #decrease sound volume
 # Past 100 %
-bindsym Shift+XF86AudioRaiseVolume exec ~/.bash/bin/volume.sh up   #increase sound volume
-bindsym Shift+XF86AudioLowerVolume exec ~/.bash/bin/volume.sh down #decrease sound volume
+bindsym Shift+XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh up   #increase sound volume
+bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh down #decrease sound volume
 # Mute sound
-bindsym XF86AudioMute exec ~/.bash/bin/vol-mute.sh        #mute sound volume
+bindsym XF86AudioMute exec ~/.dotfiles/bin/vol-mute.sh        #mute sound volume
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 1 #increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 1 #increase screen brightness
 
 # background change
-bindsym XF86Tools exec ~/.bash/bin/bg-randomize.sh
+bindsym XF86Tools exec ~/.dotfiles/bin/bg-randomize.sh
 
 # Lock screen
 bindsym XF86Search exec i3lock -de -I 5 -p win
 
 # Take a screenshot
 bindsym Print exec gnome-screenshot
-bindsym Shift+Print exec ~/.bash/bin/screenshot.sh
+bindsym Shift+Print exec ~/.dotfiles/bin/screenshot.sh
 #
 # }}}
 
 # Other properties {{{
 # Set background picture
 # exec feh --bg-scale ~/Pictures/Backgrounds/boo.png
-exec ~/.bash/bin/bg-randomize.sh
+exec ~/.dotfiles/bin/bg-randomize.sh
+
+# Set composition (for transparency, etc)
+exec compton -b --config ~/.config/compton.conf
 #
 # }}}
 

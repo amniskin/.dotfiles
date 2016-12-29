@@ -16,12 +16,18 @@ Plugin 'jamessan/vim-gnupg'
 " utility
 Plugin 'mattn/webapi-vim'
 "
+" Pandoc things
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'vim-pandoc/vim-rmarkdown'
+"
 " git
 "Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/gist-vim'
 "
 " " searching
 "Plugin 'kien/ctrlp.vim'
+"Plugin 'kien/ctrlspace.vim'
 "
 " " completion
 Plugin 'ervandew/supertab'
@@ -69,6 +75,10 @@ filetype plugin indent on
 "
 " vim options{{{
 set wrap
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2 
+set noexpandtab
 set linebreak
 set nolist     		" list disables linebreak
 ""set breakindent
@@ -77,11 +87,10 @@ set foldmethod=marker
 set noshowmode
 set number
 set relativenumber
-set noswapfile
-set shiftwidth=2    " indents have width=2
-set expandtab     " tabs are now spaces
-set tabstop=2  		" tab width=2
-set backspace=2   " so backspace works as normal
+set backup
+set swapfile
+set backupdir=~/.vim-tmp
+set directory=~/.vim-tmp
 set ignorecase    " case insensitive searching
 set smartcase     " If I type capitals, then searches are case sensitive
 no ' $
@@ -100,7 +109,8 @@ let g:Tex_DefaultTargetFormat='pdf'
 set t_Co=256
 syntax on "enable
 " colorscheme vim70style
-colorscheme github
+colorscheme distinguished
+" colorscheme github
 " " }}}
 "
 " Airline{{{
@@ -133,5 +143,10 @@ augroup amniskin
 augroup END
 
 " setting tabstop to 4 four JavaScript
+autocmd FileType tex :setlocal sw=4 ts=4 sts=4 spell
+autocmd FileType tex :map <C-P> :w <CR> :! pdflatex % <CR>
+autocmd FileType markdown :setlocal sw=4 ts=4 sts=4 spell
+autocmd FileType clojure :setlocal sw=2 ts=2 sts=2 
 autocmd FileType javascript :setlocal sw=4 ts=4 sts=4 
+autocmd FileType python :setlocal sw=4 ts=4 sts=4 
 " }}}
