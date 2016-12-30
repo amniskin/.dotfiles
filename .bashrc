@@ -76,8 +76,8 @@ esac
 
 
 ### git status in command prompt
-if [ -f ~/.bash/bin/bashgit ]; then
-  . ~/.bash/bin/bashgit
+if [ -f ~/.dotfiles/bin/bashgit ]; then
+  . ~/.dotfiles/bin/bashgit
 fi
 
 
