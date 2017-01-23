@@ -144,7 +144,7 @@ augroup END
 
 " setting tabstop to 4 four JavaScript
 autocmd FileType tex :setlocal sw=4 ts=4 sts=4 spell
-autocmd FileType tex :map <C-P> :w <CR> :! pdflatex % <CR>
+autocmd FileType tex :map <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>
 autocmd FileType markdown :setlocal sw=4 ts=4 sts=4 spell
 autocmd FileType clojure :setlocal sw=2 ts=2 sts=2 
 autocmd FileType javascript :setlocal sw=4 ts=4 sts=4 
