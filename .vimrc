@@ -55,7 +55,8 @@ Plugin 'guns/vim-clojure-highlight'
 "Plugin 'kchmck/vim-coffee-script'
 "
 " " editor extras
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'guns/xterm-color-table.vim'
 "
@@ -65,46 +66,14 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'flazz/vim-colorschemes'
 "
 " " }}}
-"
+
 " required by vundle {{{
 "
 call vundle#end()
 filetype plugin indent on
 "
 " " }}}
-"
-" vim options{{{
-set wrap
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2 
-set noexpandtab
-set linebreak
-set nolist     		" list disables linebreak
-""set breakindent
-set autoindent
-set foldmethod=marker
-set noshowmode
-set number
-set relativenumber
-set backup
-set swapfile
-set backupdir=~/.vim-tmp
-set directory=~/.vim-tmp
-set ignorecase    " case insensitive searching
-set smartcase     " If I type capitals, then searches are case sensitive
-no ' $
-no " ^
 
-nmap <C-J> a<CR><Esc>k$
-"}}}
-"
-" LaTeX options{{{
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='latex'
-let g:Tex_DefaultTargetFormat='pdf'
-"}}}
-"
 " color scheme{{{
 set t_Co=256
 syntax on "enable
@@ -112,9 +81,9 @@ syntax on "enable
 colorscheme distinguished
 " colorscheme github
 " " }}}
-"
+
 " Airline{{{
-"let g:airline_theme = 'wombat'                       " Airline colorscheme
+let g:airline_theme = g:colors_name
 "let g:airline_powerline_fonts = 1                    " Fancy symbols
 let g:airline#extensions#tabline#enabled = 1         " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t'     " Show just the filename
@@ -124,29 +93,53 @@ let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
 let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
 set laststatus=2 				     " To have airline show allways
 " " }}}
-"
-" Indent Guides{{{
-let g:indent_guides_enable_on_vim_startup = 1        " doit when vim starts
-let g:indent_guides_auto_colors = 0                  " guide colors set by colorscheme
-let g:indent_guides_exclude_filetypes = ['help']     " don't doit to these
-let g:indent_guides_start_level = 1                  " start level
-" " }}}
-"
-" FileType specific things.  {{{
-"   to associate hoplon files with clojure syntax
-augroup amniskin
-	autocmd!
-	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
-	autocmd BufRead,BufNewFile *.md set filetype=markdown
-	autocmd BufRead,BufNewFile *.asc set filetype=gpg
-  autocmd FileType clojure setlocal lispwords+=page,cell-let,this-as,add-watch
-augroup END
 
-" setting tabstop to 4 four JavaScript
-autocmd FileType tex :setlocal sw=4 ts=4 sts=4 spell
-autocmd FileType tex :map <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>
-autocmd FileType markdown :setlocal sw=4 ts=4 sts=4 spell
-autocmd FileType clojure :setlocal sw=2 ts=2 sts=2 
-autocmd FileType javascript :setlocal sw=4 ts=4 sts=4 
-autocmd FileType python :setlocal sw=4 ts=4 sts=4 
+" Indent Guides{{{
+augroup indentguides
+	autocmd!
+	set background=dark
+	let g:indent_guides_enable_on_vim_startup = 1        " doit when vim starts
+	let g:indent_guides_auto_colors = 1                  " guide colors set by colorscheme
+	let g:indent_guides_exclude_filetypes = ['help']     " don't doit to these
+	let g:indent_guides_start_level = 1                  " start level
+augroup END
+" " }}}
+
+" General options{{{
+augroup vanilla
+	autocmd!
+	autocmd BufRead,BufNewFile * let mapleader = "\\"
+	" Standard things
+	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 softtabstop=2 noexpandtab linebreak nolist breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase
+	autocmd BufRead,BufNewFile * set backup noswapfile
+	autocmd BufRead,BufNewFile * set backupdir=~/.vim-tmp
+	" Keybindings
+	autocmd BufRead,BufNewFile * noremap <leader>ev :vsplit $MYVIMRC<CR>
+	autocmd BufRead,BufNewFile * nnoremap <C-J> a<CR><Esc>k$
+	" To load .vimrc file from local directory
+	autocmd BufRead,BufNewFile * set exrc
+	autocmd BufRead,BufNewFile * set secure
+augroup END
+"}}}
+
+" FileType specific things.  {{{
+augroup fileAssociations
+	autocmd!
+	" File-extension / FileType Associations
+	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
+	autocmd BufRead,BufNewFile *.md             set filetype=markdown
+	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
+	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
+	" FileType specific setlocals
+	autocmd FileType tex        setlocal sw=4 ts=4 sts=4 spell
+	autocmd FileType markdown   setlocal sw=4 ts=4 sts=4 spell
+	autocmd FileType c          setlocal sw=4 ts=4 sts=4
+	autocmd FileType cpp        setlocal sw=4 ts=4 sts=4
+	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
+	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
+	autocmd FileType python     setlocal sw=4 ts=4 sts=4
+	" FileType specific keybindings
+	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ % <CR> <CR>
+	autocmd FileType tex nnoremap <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>
+augroup END
 " }}}

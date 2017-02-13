@@ -31,7 +31,7 @@ alias git-up='git add --all && git commit'
 
 alias j-pdf='jupyter nbconvert --to=pdf --template=latex.tplx'
 
-alias cdd='cd ~/Documents/courses/newCollege/current/'
+alias cdd='cd /media/amniskin/Samsung\ USB/courses/2016-7_spring/'
 
 # for a decent nautilus in i3
 alias nauti='nautilus --no-desktop --new-window'
@@ -48,3 +48,6 @@ function mp ()
 	fi
 	mv "$1" "$2"
 }
+
+# Jupyter-notebooks but opens new browser window first.
+alias jupnot='chromium-browser && jupyter-notebook'

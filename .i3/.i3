@@ -1,0 +1,1 @@
+/home/amniskin/.i3

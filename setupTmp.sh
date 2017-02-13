@@ -54,3 +54,5 @@ sudo apt-get install texlive-full
 echo "installing ninvaders... "
 sudo apt-get install ninvaders
 echo "Y'all have a good day now, y'hear?"
+sudo apt-get install gcc
+sudo apt-get install g++
