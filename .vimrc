@@ -139,7 +139,7 @@ augroup fileAssociations
 	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
 	autocmd FileType python     setlocal sw=4 ts=4 sts=4
 	" FileType specific keybindings
-	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ % <CR> <CR>
+	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ -std=c++11 %
 	autocmd FileType tex nnoremap <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>
 augroup END
 " }}}
