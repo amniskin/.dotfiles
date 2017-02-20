@@ -45,7 +45,7 @@ bindsym $mod+ctrl+space exec gnome-calculator
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -sb \#87c3c7 -sf \#000000
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -112,7 +112,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
-bindsym $mod+XF86AudioMute workspace personalComms
+bindsym $mod+XF86AudioMute workspace comms
 bindsym $mod+XF86AudioLowerVolume workspace email
 bindsym $mod+XF86AudioRaiseVolume workspace music
 
@@ -132,7 +132,7 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
-bindsym $mod+Shift+XF86AudioMute move container to workspace personalComms
+bindsym $mod+Shift+XF86AudioMute move container to workspace comms
 bindsym $mod+Shift+XF86AudioLowerVolume move container to workspace email
 bindsym $mod+Shift+XF86AudioRaiseVolume move container to workspace music
 bindsym $mod+Shift+XF86LaunchA move container to workspace VGA-1
@@ -176,6 +176,18 @@ bindsym $mod+r mode "resize"
 bar {
 	status_command py3status -c ~/.i3/i3status.conf #py3status -c ~/.i3/i3status.conf #i3status
 	position top
+	colors {
+		background #000000
+		statusline #ffffff
+		separator #666666
+
+		#                  border  backgr  text
+		focused_workspace  #4c7899 #87c3c7 #000000
+		active_workspace   #333333 #5f676a #ffffff
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2f343a #900000 #ffffff
+		binding_mode       #2f343a #900000 #ffffff
+	}
 }
 # Key mappings
 exec_always setxkbmap -option ctrl:swapcaps
@@ -189,11 +201,11 @@ bindsym XF86Explorer exec ~/.dotfiles/bin/trackpad.sh #xinput enable 11
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec ~/.dotfiles/bin/vol-up.sh   #increase sound volume
-bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/vol-down.sh #decrease sound volume
+bindsym XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh capped up
+bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh capped down
 # Past 100 %
-bindsym Shift+XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh up   #increase sound volume
-bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh down #decrease sound volume
+bindsym Shift+XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh uncapped up
+bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh uncapped down
 # Mute sound
 bindsym XF86AudioMute exec ~/.dotfiles/bin/vol-mute.sh        #mute sound volume
 
@@ -209,7 +221,7 @@ bindsym XF86Search exec i3lock -de -I 5 -p win
 
 # Take a screenshot
 bindsym Print exec ~/.dotfiles/bin/screenshot.sh
-bindsym Shift+Print exec ~/.dotfiles/bin/screenshot.sh -w
+bindsym Shift+Print exec ~/.dotfiles/bin/screenshot.sh window
 #
 # }}}
 
@@ -224,7 +236,7 @@ exec compton -b --config ~/.config/compton.conf
 # }}}
 
 
-assign [class="^google-chrome$" instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] personalComms
+assign [class="^google-chrome$" instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"] comms
 
 # Stop i3 from freezing every time a new message comes in.
 #no_focus [class="^google-chrome$" instance="^crx_nckgahadagoaajjgafhacjanaoiihapd$"]

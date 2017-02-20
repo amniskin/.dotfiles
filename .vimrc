@@ -110,7 +110,7 @@ augroup vanilla
 	autocmd!
 	autocmd BufRead,BufNewFile * let mapleader = "\\"
 	" Standard things
-	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 softtabstop=2 noexpandtab linebreak nolist breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase
+	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 softtabstop=2 noexpandtab linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase
 	autocmd BufRead,BufNewFile * set backup noswapfile
 	autocmd BufRead,BufNewFile * set backupdir=~/.vim-tmp
 	" Keybindings
@@ -128,6 +128,7 @@ augroup fileAssociations
 	" File-extension / FileType Associations
 	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
 	autocmd BufRead,BufNewFile *.md             set filetype=markdown
+	autocmd BufRead,BufNewFile *.py             set filetype=python
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
 	" FileType specific setlocals
