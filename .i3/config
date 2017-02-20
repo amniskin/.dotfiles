@@ -207,7 +207,7 @@ bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh capped down
 bindsym Shift+XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh uncapped up
 bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh uncapped down
 # Mute sound
-bindsym XF86AudioMute exec ~/.dotfiles/bin/vol-mute.sh        #mute sound volume
+bindsym XF86AudioMute exec ~/.dotfiles/bin/volume.sh mute
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 1 #increase screen brightness
