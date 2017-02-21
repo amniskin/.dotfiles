@@ -131,6 +131,7 @@ augroup fileAssociations
 	autocmd BufRead,BufNewFile *.py             set filetype=python
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
+	autocmd BufRead,BufNewFile *.conf           set filetype=conf
 	" FileType specific setlocals
 	autocmd FileType tex        setlocal sw=4 ts=4 sts=4 spell
 	autocmd FileType markdown   setlocal sw=4 ts=4 sts=4 spell
