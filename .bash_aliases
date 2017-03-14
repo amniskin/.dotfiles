@@ -49,5 +49,13 @@ function mp ()
 	mv "$1" "$2"
 }
 
+# mkdir and cd
+function mkcd ()
+{
+	if [ ! -d "$1" ]; then
+		mkdir "$1" && echo "Made new directory at " $(pwd)"/$1" && cd "$1"
+	fi
+}
+
 # Jupyter-notebooks but opens new browser window first.
 alias jupnot='chromium-browser && jupyter-notebook'
