@@ -226,10 +226,12 @@ bindsym Shift+Print exec ~/.dotfiles/bin/screenshot.sh window
 
 # startup scripts {{{
 # Set background picture
-exec ~/.dotfiles/bin/bg-randomize.sh
+exec_always --no-startup-id feh --randomize --bg-scale ~/Pictures/Wallpapers
+## exec ~/.dotfiles/bin/bg-randomize.sh
+## exec_always --no-startup-id xsetroot -solid '#222222'
 
 # Set composition (for transparency, etc)
-exec compton -b --config ~/.config/compton.conf
+exec_always compton -b --config ~/.dotfiles/compton.conf
 #
 # }}}
 

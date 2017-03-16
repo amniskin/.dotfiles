@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 digit=$(($RANDOM % 10))
-echo $digit
+echo "Background-change random number = $digit"
 rootdir="/media/amniskin/Samsung USB/Pictures"
 
 if [ $digit -gt 0 ]
