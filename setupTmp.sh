@@ -1,5 +1,5 @@
 tmpDir=~/Documents/installScriptTmp
-echo "makind script directory at $tmpDir"
+echo "making script directory at $tmpDir"
 mkdir $tmpDir
 echo "copying /etc/apt/sources.list to $tmpDir/sources.list"
 cp /etc/apt/sources.list $tmpDir/
@@ -40,8 +40,9 @@ echo "installing chromium... "
 sudo apt-get install chromium
 echo "installing firefox... "
 sudo apt-get install firefox
-echo "installing flash player..."
-sudo apt-get install adobe-flashplugin
+## echo "installing flash player..."
+## sudo apt-get install adobe-flashplugin
+
 # echo "installing pip... "
 # sudo apt-get install python-pip
 # sudo apt-get install python3-pip
@@ -53,6 +54,14 @@ echo "installing texlive... "
 sudo apt-get install texlive-full
 echo "installing ninvaders... "
 sudo apt-get install ninvaders
-echo "Y'all have a good day now, y'hear?"
+echo "installing gcc... "
 sudo apt-get install gcc
+echo "installing g++... "
 sudo apt-get install g++
+echo "installing compton... "
+sudo apt-get install compton
+echo "installing feh... "
+sudo apt-get install feh
+
+
+echo "Y'all have a good day now, y'hear?"
