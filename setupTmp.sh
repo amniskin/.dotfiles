@@ -14,11 +14,20 @@ CONTREPO=https://repo.continuum.io/archive/
 ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linux" | grep "86_64" | head -n 1 | cut -d \" -f 2)
 wget -O $tmpDir/anaconda.sh $CONTREPO$ANACONDAURL
 bash $tmpDir/anaconda.sh
+sudo apt-get install python-pip &&
+	sudo pip install --upgrade pip &&
+	sudo apt-get install i3 &&
+	sudo pip install py3status &&
+	sudo apt-get install xbacklight
 echo "installing mongodb and pymongo..."
 sudo apt-get install mongodb
 conda install pymongo
 echo "installing postgresql..."
 sudo apt-get install postgresql
+echo "installing ruby..."
+sudo apt-get install ruby &&
+	sudo apt-get install ruby-dev &&
+	sudo apg-get install jekyll
 echo "installing curl..."
 sudo apt-get install curl
 echo "installing docker..."
