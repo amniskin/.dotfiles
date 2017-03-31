@@ -176,11 +176,9 @@ mode "resize" {
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	status_command py3status -c ~/.dotfiles/.i3/i3status.conf
 	# i3bar_command i3bar
+	status_command py3status -c ~/.dotfiles/.i3/i3status.conf
 	# status_command /usr/local/lib/python2.7/dist-packages/powerline/bindings/lemonbar/powerline-lemonbar.py --i3
-	# status_command /usr/local/lib/python2.7/dist-packages/powerline/bindings/i3/powerline-i3.py
-	font pango:DejaVu Sans Mono 8
 	position top
 	colors {
 		background #000000
