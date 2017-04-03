@@ -229,7 +229,7 @@ bindsym Shift+Print exec ~/.dotfiles/bin/screenshot.sh window
 # startup scripts {{{
 # Set background picture
 ## exec_always --no-startup-id feh --randomize --bg-scale ~/Pictures/Wallpapers
-exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/Rocket__1920x1080_.jpg
+exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/safedeath.jpg
 ## exec ~/.dotfiles/bin/bg-randomize.sh
 ## exec_always --no-startup-id xsetroot -solid '#222222'
 
