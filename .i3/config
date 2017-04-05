@@ -211,8 +211,10 @@ bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh uncapped down
 bindsym XF86AudioMute exec ~/.dotfiles/bin/volume.sh mute
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 1 #increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 1 #increase screen brightness
+bindsym XF86MonBrightnessUp exec ~/.dotfiles/bin/brightness.sh set up
+# bindsym XF86MonBrightnessUp exec xbacklight -inc 1 #increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/.dotfiles/bin/brightness.sh set down #decrease
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 1 #decrease screen brightness
 
 # background change
 bindsym XF86Tools exec ~/.dotfiles/bin/bg-randomize.sh
