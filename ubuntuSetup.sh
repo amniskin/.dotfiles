@@ -74,4 +74,12 @@ do
 		echo "conda install error ==> $package\n" >> $tmpdir/errors.txt
 done
 
+## ruby gems
+packages=("bundler")
+for package in "${packages[@]}"
+do
+	gem install $package ||
+		echo "gem install error ==> $package\n" >> $tmpdir/errors.txt
+done
+
 echo "Y'all have a good day now, y'hear?"
