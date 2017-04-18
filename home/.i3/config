@@ -177,7 +177,7 @@ mode "resize" {
 # finds out, if available)
 bar {
 	# i3bar_command i3bar
-	status_command py3status -c ~/.dotfiles/.i3/i3status.conf
+	status_command py3status -c ~/.dotfiles/home/.i3/i3status.conf
 	# status_command /usr/local/lib/python2.7/dist-packages/powerline/bindings/lemonbar/powerline-lemonbar.py --i3
 	position top
 	colors {
