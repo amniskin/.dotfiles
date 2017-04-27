@@ -1,25 +1,38 @@
 tmpDir=~/Documents/installScriptTmp
-echo "making script directory at $tmpDir"
-mkdir $tmpDir
+if [ ! -d $tmpDir ]
+then
+	echo "making script directory at $tmpDir"
+	mkdir $tmpDir
+else
+	echo "$tmpDir already exists. Using old directory"
+fi
 echo "updating repos..."
-sudo apt-get update
+sudo -H apt-get update
 echo "copying /etc/apt/sources.list to $tmpDir/sources.list"
 cp /etc/apt/sources.list $tmpDir/
-echo "adding canonical parter repos..."
-cat /etc/apt/sources.list | sed -r 's/\#\ deb\ (.*)partner/deb\ \1partner/' > /etc/apt/sources.list
-touch $tmpdir/errors.txt
+## echo "adding canonical parter repos..."
+## cat /etc/apt/sources.list | sed -r 's/\#\ deb\ (.*)partner/deb\ \1partner/' > /etc/apt/sources.list
+
+echo "" > $tmpDir/errors.txt
 
 ## apt-get packages
 packages=("i3" "xbacklight" "python-pip" "curl" "mongodb" "postgresql" "ruby"
-"ruby-dev" "jekyll" "tree" "chromium" "firefox" "gnupg" "adobe-flashplugin"
-"vlc" "texlive-full" "ninvaders" "gcc" "g++" "compton" "feh" "gimp" "xclip"
-"transmission" "r-base")
+"ruby-dev" "jekyll" "tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton"
+"adobe-flashplugin" "texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip"
+"transmission" "r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre"
+"default-jdk")
 
 for package in "${pacakges[@]}"
 do
 	echo "installing $package..." &&
-		sudo apt-get install $package || echo "apt-get install error ==> $package\n" >> $tmpdir/errors.txt
+		sudo apt-get install $package || echo "apt-get install error ==> $package\n" >> $tmpDir/errors.txt
 done
+
+echo "================================================="
+echo "================================================="
+echo "================  Github/linking  ==============="
+echo "================================================="
+echo "================================================="
 
 git config --global user.email "amniskin@gmail.com"&&
 git config --global user.name "Aaron Niskin"
@@ -34,8 +47,10 @@ do
 	for file in "${files[@]}"
 	do
 		ln -s ~/.dotfiles/home/$file ~/$file ||
-			echo "symlink error ==> $file\n" >> $tmpdir/errors.txt
+			echo "symlink error ==> $file\n" >> $tmpDir/errors.txt
 	done
+
+	sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
 
 	mkdir ~/.vim-tmp
 	echo "installing VimVundle... "
@@ -44,6 +59,12 @@ do
 	vim +PluginInstall +qall
 done
 
+echo "================================================="
+echo "================================================="
+echo "=====================   pip   ==================="
+echo "================================================="
+echo "================================================="
+
 ## pip packages
 packages=("py3status")
 
@@ -51,8 +72,14 @@ sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
 	do
 		sudo -H pip install $package ||
-			echo "pip install error ==> $package\n" >> $tmpdir/errors.txt
+			echo "pip install error ==> $package\n" >> $tmpDir/errors.txt
 	done
+
+echo "================================================="
+echo "================================================="
+echo "==================   Anaconda   ================="
+echo "================================================="
+echo "================================================="
 
 echo "installing anaconda..."
 CONTREPO=https://repo.continuum.io/archive/
@@ -62,24 +89,36 @@ ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linu
 wget -O $tmpDir/anaconda.sh $CONTREPO$ANACONDAURL
 bash $tmpDir/anaconda.sh
 
+echo "================================================="
+echo "================================================="
+echo "===============  Conda Packages  ================"
+echo "================================================="
+echo "================================================="
+
 ## conda packages
 packages=("numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels"
 "pymongo" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim"
-"mrjob")
+"mrjob" "beautifulsoup4")
 
 for package in "${packages[@]}"
 do
 	conda install $package ||
 		conda install $package -c conda-forge ||
-		echo "conda install error ==> $package\n" >> $tmpdir/errors.txt
+		echo "conda install error ==> $package\n" >> $tmpDir/errors.txt
 done
+
+echo "================================================="
+echo "================================================="
+echo "===================  Ruby  ======================"
+echo "================================================="
+echo "================================================="
 
 ## ruby gems
 packages=("bundler")
 for package in "${packages[@]}"
 do
 	gem install $package ||
-		echo "gem install error ==> $package\n" >> $tmpdir/errors.txt
+		echo "gem install error ==> $package\n" >> $tmpDir/errors.txt
 done
 
 echo "Y'all have a good day now, y'hear?"
