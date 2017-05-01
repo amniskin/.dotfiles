@@ -149,7 +149,8 @@ bindsym $mod+Shift+XF86AudioRaiseVolume move container to workspace music
 # VGA workspaces {{{
 bindsym $mod+XF86LaunchA workspace "VGA-1"
 bindsym $mod+Shift+XF86LaunchA move container to workspace "VGA-1"
-workspace "VGA-1" output DP2
+workspace "VGA-1" output DP-2
+exec_always --no-startup-id ~/.dotfiles/bin/multimonitor.sh
 # }}}
 
 # resize window {{{
