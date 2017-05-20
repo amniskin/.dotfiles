@@ -15,12 +15,11 @@ cp /etc/apt/sources.list $tmpDir/
 
 echo "" > $tmpDir/errors.txt
 
-## apt-get packages
-packages=("i3" "xbacklight" "python-pip" "curl" "mongodb" "postgresql" "ruby"
-"ruby-dev" "jekyll" "tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton"
-"adobe-flashplugin" "texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip"
-"transmission" "r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre"
-"default-jdk")
+## apt-get packages... Left out: "mongodb" "postgresql" 
+packages=("i3" "xbacklight" "python-pip" "curl" "ruby" "ruby-dev" "jekyll"
+"tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin"
+"texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip" "transmission"
+"r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre" "default-jdk")
 
 for package in "${pacakges[@]}"
 do

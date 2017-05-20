@@ -2,7 +2,7 @@
 
 digit=$(($RANDOM % 10))
 echo "Background-change random number = $digit"
-rootdir="/media/amniskin/Samsung USB/Pictures"
+rootdir="/media/amniskin/Samsung USB/Media/Pictures"
 
 if [ $digit -gt 0 ]
 then
