@@ -65,7 +65,9 @@ echo "================================================="
 echo "================================================="
 
 ## pip packages
-packages=("py3status")
+packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn"
+"statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim"
+"beautifulsoup4" "scipy")
 
 sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"

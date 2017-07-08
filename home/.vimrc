@@ -128,6 +128,7 @@ augroup fileAssociations
 	" File-extension / FileType Associations
 	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
 	autocmd BufRead,BufNewFile *.md             set filetype=markdown
+	autocmd BufRead,BufNewFile *.yaml           set filetype=yaml
 	autocmd BufRead,BufNewFile *.py             set filetype=python
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
@@ -141,6 +142,7 @@ augroup fileAssociations
 	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
 	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
 	autocmd FileType python     setlocal sw=4 ts=4 sts=4 expandtab
+	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2 expandtab
 	" FileType specific keybindings
 	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ -std=c++11 %
 	autocmd FileType tex nnoremap <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>

@@ -1,5 +1,5 @@
 set $mod Mod1
-set $alt Mod4
+### set $alt Mod4
 
 # comment mouse things and font {{{
 # Font for window titles. Will also be used by the bar unless a different font
