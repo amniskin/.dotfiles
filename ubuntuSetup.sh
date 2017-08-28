@@ -18,7 +18,7 @@ cp /etc/apt/sources.list $tmpDir/
 echo "" > $tmpDir/errors.txt
 
 ## apt-get packages... Left out: "mongodb" "postgresql" 
-packages=("vim" "git" "i3" "xbacklight" "python-pip" "curl" "ruby" "ruby-dev" "jekyll" "tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip" "transmission" "r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre" "default-jdk")
+packages=("vim" "git" "i3" "xbacklight" "python-pip" "curl" "ruby" "ruby-dev" "jekyll" "tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip" "transmission" "r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre" "default-jdk" "tmux")
 
 for package in "${packages[@]}"
 do
@@ -41,11 +41,21 @@ git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
 files=(".vimrc" ".bashrc" ".bash_aliases" ".mrjob.conf" ".i3/config"
 ".i3/i3status.conf")
 
+if [ ! -d ~/.i3 ]
+then
+	mkdir ~/.i3
+fi
+
 for file in "${files[@]}"
 do
-	rm ~/$file && ln -s ~/.dotfiles/home/$file ~/$file ||
+	if [ -f ~/$file ]
+	then
+		rm ~/$file
+	fi
+	ln -s ~/.dotfiles/home/$file ~/$file ||
 		echo "symlink error ==> $file\n" >> $tmpDir/errors.txt
 done
+
 
 sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
 
@@ -62,9 +72,7 @@ echo "================================================="
 echo "================================================="
 
 ##  pip packages
-packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4")
-
-echo "NOT HERE"
+packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status")
 
 sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
