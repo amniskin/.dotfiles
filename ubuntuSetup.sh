@@ -43,7 +43,7 @@ files=(".vimrc" ".bashrc" ".bash_aliases" ".mrjob.conf" ".i3/config"
 
 for file in "${files[@]}"
 do
-	ln -s ~/.dotfiles/home/$file ~/$file ||
+	rm ~/$file && ln -s ~/.dotfiles/home/$file ~/$file ||
 		echo "symlink error ==> $file\n" >> $tmpDir/errors.txt
 done
 
