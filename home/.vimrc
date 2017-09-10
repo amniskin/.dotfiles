@@ -37,6 +37,9 @@ Plugin 'ervandew/supertab'
 Plugin 'tpope/vim-surround'
 "
 " " helpers
+Plugin 'tpope/vim-speeddating'
+Plugin 'jceb/vim-orgmode'
+" Plugin 'vim-scripts/vim-orgmode'
 "Plugin 'tpope/vim-dispatch'
 "Plugin 'tpope/vim-projectionist'
 "
@@ -128,12 +131,14 @@ augroup fileAssociations
 	" File-extension / FileType Associations
 	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
 	autocmd BufRead,BufNewFile *.md             set filetype=markdown
+	autocmd BufRead,BufNewFile *.org            set filetype=org
 	autocmd BufRead,BufNewFile *.yaml           set filetype=yaml
 	autocmd BufRead,BufNewFile *.py             set filetype=python
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
 	autocmd BufRead,BufNewFile *.conf           set filetype=conf
 	" FileType specific setlocals
+	autocmd Filetype org        setlocal tw=72 expandtab
 	autocmd FileType gitcommit  setlocal tw=72
 	autocmd FileType tex        setlocal sw=4 ts=4 sts=4 spell
 	autocmd FileType markdown   setlocal sw=4 ts=4 sts=4 spell
@@ -146,5 +151,6 @@ augroup fileAssociations
 	" FileType specific keybindings
 	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ -std=c++11 %
 	autocmd FileType tex nnoremap <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>
+	autocmd FileType rmd nnoremap <C-P> :w <CR> :! R -e "rmarkdown::render('"%"')" <CR>
 augroup END
 " }}}
