@@ -1,106 +1,166 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# export QT_SELECT=4
 
-# Set vim as primary editor
+##  # Enable history appending instead of overwriting.  #139609
+##  shopt -s histappend
+
+# better yaourt colors
+export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
+
+# fix "xdg-open fork-bomb" export your preferred browser from here
+export BROWSER=/usr/bin/chromium
 export EDITOR=vim
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+	*i*) ;;
+	*) return;;
 esac
 
+# Don't know what it does yet {{{
+##  xhost +local:root > /dev/null 2>&1
+
+##  complete -cf sudo
+#################}}}
+
+# bash history {{{
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+shopt -s histappend
 shopt -s checkwinsize
+shopt -s expand_aliases
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
+################# }}}
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+
+# PS1 {{{
+
+PS1=""
+
+### git status in command prompt
+if [ -f ~/.dotfiles/bin/bashgit.sh ]; then
+	. ~/.dotfiles/bin/bashgit.sh
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+	xterm-color) color_prompt=yes;;
+	*256color*) color_prompt=yes;;
+	screen) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+		# We have color support; assume it's compliant with Ecma-48
+		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+		# a case would tend to support setf rather than setaf.)
+		color_prompt=yes
+	else
+		color_prompt=
+	fi
 fi
+
+psTxt="\\W"
 
 if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	PS1="$PS1\[\033[01;34m\]$psTxt\[\033[00m\]"
 else
-#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1='${debian_chroot:+(debian_chroot)}\$ '
+	#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+	PS1="$PS1$psTxt"
 fi
-unset color_prompt force_color_prompt
+
+PS1="$PS1\$ "
+unset color_prompt force_color_prompt psTxt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-    ;;
-*)
-    ;;
+	xterm*|rxvt*)
+		# PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+		;;
+	*)
+		;;
 esac
 
+############ }}}
 
-### git status in command prompt
-if [ -f ~/.dotfiles/bin/bashgit ]; then
-  . ~/.dotfiles/bin/bashgit
+
+
+if [ -f ~/.dotfiles/home/.bash_aliases ]; then
+	. ~/.dotfiles/home/.bash_aliases
 fi
 
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
+# bash completion {{{
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
-# added by Anaconda3 4.1.1 installer
-export PATH="/home/amniskin/anaconda3/bin:$PATH"
+compDir="/usr/share/bash-completion/completions"
+if [ -d $compDir ]; then
+	for file in $compDir/* ; do
+		source $file 2> /dev/null
+	done
+fi
+unset compDir
 
-# added by Anaconda3 4.2.0 installer
-export PATH="/home/amniskin/.anaconda3/bin:$PATH"
+### }}}
+
+# changing window titles {{{
+# Change the window title of X terminals
+##  case ${TERM} in
+##  	xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
+##  		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+##  		;;
+##  	screen*)
+##  		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+##  		;;
+##  esac
+
+##  use_color=true
+##  
+##  # Set colorful PS1 only on colorful terminals.
+##  # dircolors --print-database uses its own built-in database
+##  # instead of using /etc/DIR_COLORS.  Try to use the external file
+##  # first to take advantage of user additions.  Use internal bash
+##  # globbing instead of external grep binary.
+##  safe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
+##  match_lhs=""
+##  [[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
+##  [[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
+##  [[ -z ${match_lhs}    ]] \
+##  	&& type -P dircolors >/dev/null \
+##  	&& match_lhs=$(dircolors --print-database)
+##  [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
+##  
+##  if ${use_color} ; then
+##  	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
+##  	if type -P dircolors >/dev/null ; then
+##  		if [[ -f ~/.dir_colors ]] ; then
+##  			eval $(dircolors -b ~/.dir_colors)
+##  		elif [[ -f /etc/DIR_COLORS ]] ; then
+##  			eval $(dircolors -b /etc/DIR_COLORS)
+##  		fi
+##  	fi
+##  fi
+##  
+##  unset use_color safe_term match_lhs sh
+##  
+
+
+
+############ }}}

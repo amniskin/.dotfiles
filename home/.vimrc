@@ -113,9 +113,7 @@ augroup vanilla
 	autocmd!
 	autocmd BufRead,BufNewFile * let mapleader = "\\"
 	" Standard things
-	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 softtabstop=2 noexpandtab linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase
-	autocmd BufRead,BufNewFile * set backup noswapfile
-	autocmd BufRead,BufNewFile * set backupdir=~/.vim-tmp
+	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 sts=2 noexpandtab linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp
 	" Keybindings
 	autocmd BufRead,BufNewFile * noremap <leader>ev :vsplit $MYVIMRC<CR>
 	autocmd BufRead,BufNewFile * nnoremap <C-J> a<CR><Esc>k$
