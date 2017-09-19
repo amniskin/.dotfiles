@@ -8,21 +8,19 @@
 
 !! black dark/light
 *color0:                          #232423
-*color8:                          #282928
+*color8:                          #a9a9a9
 
 !! red dark/light
 *color1:                          #BA2922
 *color9:                          #CC372C
 
-!! green dark/light
-*color2:                          #7E807E
-*color10:                         #8D8F8D
+!!  !! green dark/light
+!!  *color2:                          #7E807E
+*color10:                         #77dd77
 
-!! yellow dark/light
-!! *color3:                          #4C4F4D
-*color3:                          #ffff00
-!!  *color11:                         #ffff00
-*color11:                         #4E524F
+!!  !! yellow dark/light
+!!  *color3:                          #4C4F4D
+!!  *color11:                         #4E524F
 
 !! blue dark/light
 *color4:                          #16A085
