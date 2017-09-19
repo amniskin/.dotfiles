@@ -32,11 +32,14 @@ then
 	touch $errorFile
 fi
 
+echo Setting up ssh keys...
+ssh-keygen -t rsa
+
 echo "updating repos..."
 sudo pacman -Syu
 
-## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" 
-packages=("vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-most" "texlive-lang" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip" "transmission" "r" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre" "default-jdk" "tmux")
+## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" "gcc" "g++" 
+packages=("vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-most" "texlive-lang" "ninvaders" "feh" "gimp" "xclip" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux")
 
 counter=0
 for package in "${packages[@]}"
@@ -58,20 +61,31 @@ git config --global user.name "Aaron Niskin"
 ## cloning my dotfiles
 git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
 ## linking my dotfiles
-files=(".vimrc" ".bashrc" ".mrjob.conf" ".i3/config" ".i3/i3status.conf")
+# files=(".vimrc" ".bashrc" ".mrjob.conf" ".i3/config" ".i3/i3status.conf")
 
-if [ ! -d ~/.i3 ]
-then
-	mkdir ~/.i3
+fileDir="~/.dotfiles/home"
+oldDir="~/old"
+
+if [ ! -d $oldDir ]; then
+	mkdir $oldDir
 fi
 
-for file in "${files[@]}"
+for file in $(ls $fileDir) ##  "${files[@]}"
 do
-	if [ -f ~/$file ]
-	then
-		rm ~/$file
+	if [ -d $fileDir/$file ]; then
+		if [ ! -d "~/$file" ]; then
+			mkdir ~/$file
+		fi
+		for inner in $(ls $fileDir/$file); do
+			if [ -f ~/$file/$inner ]; then
+				mv ~/$file/$inner "$oldDir/$file..$inner" &&
+				ln -s "$fileDir/$file/$inner" ~/$file/$inner
+			fi
+		done
+	elif [ -f ~/$file ]; then
+		mv ~/$file $oldDir/$file
 	fi
-	ln -s ~/.dotfiles/home/$file ~/$file ||
+	ln -s $fileDir/$file ~/$file ||
 		echo "symlink error ==> $file\n" >> $errorFile
 done
 
@@ -91,7 +105,7 @@ echo "================================================="
 echo "================================================="
 
 ##  pip packages
-packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython")
+packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython" "jupyter")
 
 sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
