@@ -9,6 +9,8 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 # fix "xdg-open fork-bomb" export your preferred browser from here
 export BROWSER=/usr/bin/chromium
 export EDITOR=vim
+export TERM="rxvt-unicode-256color"
+# export COLORTERM="rxvt-256color"
 
 # If not running interactively, don't do anything
 case $- in
@@ -43,6 +45,8 @@ shopt -s expand_aliases
 
 # PS1 {{{
 
+# force_color_prompt=yes
+
 PS1=""
 
 ### git status in command prompt
@@ -67,11 +71,11 @@ if [ -n "$force_color_prompt" ]; then
 	fi
 fi
 
-psTxt="\\W"
+psTxt="\W"
 
 if [ "$color_prompt" = yes ]; then
 	# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-	PS1="$PS1\[\033[01;34m\]$psTxt\[\033[00m\]"
+	PS1="$PS1\[\e[01;34m\]$psTxt\[\e[0m\]"
 else
 	#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 	PS1="$PS1$psTxt"
@@ -80,15 +84,15 @@ fi
 PS1="$PS1\$ "
 unset color_prompt force_color_prompt psTxt
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-	xterm*|rxvt*)
-		# PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-		;;
-	*)
-		;;
-esac
+##  # If this is an xterm set the title to user@host:dir
+##  case "$TERM" in
+##  	xterm*|rxvt*)
+##  		# PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+##  		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+##  		;;
+##  	*)
+##  		;;
+##  esac
 
 ############ }}}
 
