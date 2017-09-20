@@ -19,9 +19,9 @@ focus_on_window_activation urgent
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
-exec --no-startup-id volumeicon
-#exec --no-startup-id pulseaudio
-#exec --no-startup-id pa-applet
+# exec --no-startup-id volumeicon
+# exec --no-startup-id pulseaudio
+exec --no-startup-id pa-applet
 
 # }}}
 
@@ -62,6 +62,10 @@ bindsym $mod+Shift+r restart
 
 # volume {{{
 
+##  bindsym XF86AudioRaiseVolume exec pulseaudio-ctl up
+##  bindsym XF86AudioLowerVolume exec pulseaudio-ctl down
+##  bindsym XF86AudioMute exec pulseaudio-ctl mute
+
 ## # Pulse Audio controls
 ## bindsym XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh capped up
 ## bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh capped down
@@ -70,7 +74,7 @@ bindsym $mod+Shift+r restart
 ## bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh uncapped down
 ## # Mute sound
 ## bindsym XF86AudioMute exec ~/.dotfiles/bin/volume.sh mute
-## 
+##
 ################## }}}
 
 # apps {{{
@@ -95,6 +99,7 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
+bindsym $mod+Ctrl+space exec kcalc
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 bindsym $mod+c exec chromium # palemoon
 bindsym $mod+n exec pcmanfm
@@ -264,25 +269,23 @@ bindsym $mod+Shift+$key12 move container to workspace $ws12;
 # resizing {{{
 bindsym $mod+r mode "resize"
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # exit resize mode: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	# These bindings trigger as soon as you enter the resize mode
+	# Pressing left will shrink the window’s width.
+	# Pressing right will grow the window’s width.
+	# Pressing up will shrink the window’s height.
+	# Pressing down will grow the window’s height.
+	bindsym h resize shrink width 5 px or 5 ppt
+	bindsym j resize grow height 5 px or 5 ppt
+	bindsym k resize shrink height 5 px or 5 ppt
+	bindsym l resize grow width 5 px or 5 ppt
+	# same bindings, but for the arrow keys
+	bindsym Left resize shrink width 10 px or 10 ppt
+	bindsym Down resize grow height 10 px or 10 ppt
+	bindsym Up resize shrink height 10 px or 10 ppt
+	bindsym Right resize grow width 10 px or 10 ppt
+	# exit resize mode: Enter or Escape
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 
 ########################### }}}
@@ -294,17 +297,16 @@ mode "resize" {
 bindsym $mod+Shift+e mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+	bindsym l exec --no-startup-id i3exit lock, mode "default"
+	bindsym s exec --no-startup-id i3exit suspend, mode "default"
+	bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+	bindsym e exec --no-startup-id i3exit logout, mode "default"
+	bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+	bindsym r exec --no-startup-id i3exit reboot, mode "default"
+	bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+	# exit system mode: "Enter" or "Escape"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 
 ################# }}}
@@ -378,7 +380,7 @@ exec_always --no-startup-id fix_xcursor
 # Change the variable name at the place you want to match the color
 # of your terminal like this:
 # [example]
-# If you want your bar to have the same background color as your 
+# If you want your bar to have the same background color as your
 # terminal background change the line 362 from:
 # background  $i3_background
 # to:
@@ -403,7 +405,7 @@ set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
-# Color palette used for i3 
+# Color palette used for i3
 # Variables are set based on the documentation:
 # https://i3wm.org/dovs/userguide.html#variables
 # Changing the value of one of the variables will
@@ -446,26 +448,22 @@ bar {
 	# status_command i3status
 	status_command py3status -c ~/.dotfiles/home/.i3/i3status.conf
 	position top
-
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
-
+	## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+	#	tray_output primary
+	#	tray_output eDP1
 	bindsym button4 nop
 	bindsym button5 nop
 	font xft:Noto Sans 8
 	strip_workspace_numbers yes
-
 	colors {
 		# background $transparent
-    background $term_background
-    statusline $i3_text
-    separator  $i3_separator
-
+		background $term_background
+		statusline $i3_text
+		separator  $i3_separator
 		#                   border      backgr.     text
-    focused_workspace   $i3_color2  $i3_color4  $i3_text
-    active_workspace    $i3_color2  $i3_color3  $i3_color5
-    inactive_workspace  $i3_color2  $i3_color3  $i3_color6
+		focused_workspace   $i3_color2  $i3_color4  $i3_text
+		active_workspace    $i3_color2  $i3_color3  $i3_color5
+		inactive_workspace  $i3_color2  $i3_color3  $i3_color6
 		urgent_workspace    $i3_color4  $i3_color5  $i3_color7
 	}
 }
@@ -489,7 +487,7 @@ gaps outer -4
 # Smart gaps (gaps used if only more than one container on the workspace)
 smart_gaps on
 
-# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
 smart_borders on
 
@@ -500,33 +498,29 @@ set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym o      mode "$mode_gaps_outer"
+	bindsym i      mode "$mode_gaps_inner"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
-        bindsym 0     gaps inner current set 0
-
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
-        bindsym Shift+0     gaps inner all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym plus  gaps inner current plus 5
+	bindsym minus gaps inner current minus 5
+	bindsym 0     gaps inner current set 0
+	bindsym Shift+plus  gaps inner all plus 5
+	bindsym Shift+minus gaps inner all minus 5
+	bindsym Shift+0     gaps inner all set 0
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
-
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+	bindsym plus  gaps outer current plus 5
+	bindsym minus gaps outer current minus 5
+	bindsym 0     gaps outer current set 0
+	bindsym Shift+plus  gaps outer all plus 5
+	bindsym Shift+minus gaps outer all minus 5
+	bindsym Shift+0     gaps outer all set 0
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 ################# }}}

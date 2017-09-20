@@ -39,7 +39,7 @@ echo "updating repos..."
 sudo pacman -Syu
 
 ## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" "gcc" "g++" 
-packages=("vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-most" "texlive-lang" "ninvaders" "feh" "gimp" "xclip" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux")
+packages=("vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-most" "texlive-lang" "ninvaders" "feh" "gimp" "xclip" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux" "tk" "pulseaudio-ctl" "pa-applet")
 
 counter=0
 for package in "${packages[@]}"
