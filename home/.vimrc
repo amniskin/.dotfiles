@@ -46,6 +46,9 @@ Plugin 'jceb/vim-orgmode'
 " " html
 "Plugin 'mattn/emmet-vim'
 "
+" " R
+Plugin 'jalvesaq/nvim-r'
+
 " " clojure
 Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-sexp'

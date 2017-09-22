@@ -1,0 +1,6 @@
+R_HOME_USER    = ${HOME}/.r
+R_PROFILE_USER = ${HOME}/.config/r/Rprofile.r
+R_LIBS_USER    = ${HOME}/.r/library
+R_HISTFILE     = ${HOME}/.Rhistory  # Do not forget to append the .Rhistory
+## R_DEFAULT_PACKAGES = 'datasets,utils,grDevices,graphics,stats,methods,rJava,colorout'    # load some default packages at start up
+## MYSQL_HOME = /var/lib/mysql

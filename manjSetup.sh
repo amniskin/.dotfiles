@@ -1,36 +1,44 @@
 #!/bin/bash
 
-tmplog="~/tmp.log.txt"
-echo making log file at $tmplog
-
-echo "Started script at $(date)" > $tmplog
-
 tmpDir=~/Documents/installScriptTmp
-if [ ! -d $tmpDir ]
-then
-	echo "making script directory at $tmpDir"
-	echo "making script directory at $tmpDir" >> $tmplog
+if [ ! -d $tmpDir ]; then
 	mkdir $tmpDir
-else
-	echo "$tmpDir already exists. Using old directory"
-	echo "$tmpDir already exists. Using old directory" >> $tmplog
 fi
 
-logfile=$tmpDir/log.txt
-if [ ! -f $logfile ]
-then
-	echo -n "creating log file at $logfile"
-	mv $tmplog $logfile
-	echo "moved $tmplog to file at $logfile" >> $logfile
+logFile="$tmpDir/log.txt"
+if [ ! -f $logFile ]; then
+	echo "Started script at $(date)" > $logFile
+else
+	for i in {1..4}; do
+		for j in {1..50}; do
+			echo -n "="
+		done
+	done
+	echo "Restarted script at $(date)" > $logFile
 fi
+
+echo "Making directories..."
+
+oldDir="~/old"
+dirs=("$oldDir" "~/.r" "~/.config" "~/.config/r")
+for dir in "${dirs[@]}"; do
+	if [ ! -d $dir ]; then
+		mkdir $dir && echo "Made directory at $dir" >> $logFile
+	else
+		echo "$dir already exists. Using old directory" >> $logFile
+	fi
+done
+
 
 errorFile=$tmpDir/errors.txt
-if [ ! -f $errorFile ]
-then
-	echo -n "creating error file at $errorFile"
-	echo "created error file at $errorFile" >> $logfile
-	touch $errorFile
-fi
+files=("$errorFile")
+for file in "${files[@]}"; do
+	if [ ! -f $file ]; then
+		touch $file && echo "Made $file" >> $logFile
+	else
+		echo "$file already exists... Using old." >> $logFile
+	fi
+done
 
 echo Setting up ssh keys...
 ssh-keygen -t rsa
@@ -46,7 +54,7 @@ for package in "${packages[@]}"
 do
 	counter=$(($counter + 1))
 	echo -n "installing $counter package --  $package..." &&
-		sudo pacman -S --noconfirm $package || echo "install error ==> $package\n" >> $errorFile
+		sudo pacman -S --noconfirm $package || echo "install error ==> $package" >> $errorFile
 done
 
 echo "================================================="
@@ -56,38 +64,57 @@ echo "================================================="
 echo "================================================="
 
 git config --global user.email "amniskin@gmail.com"&&
-git config --global user.name "Aaron Niskin"
+	git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
 git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
 ## linking my dotfiles
 # files=(".vimrc" ".bashrc" ".mrjob.conf" ".i3/config" ".i3/i3status.conf")
 
-fileDir="~/.dotfiles/home"
-oldDir="~/old"
-
-if [ ! -d $oldDir ]; then
-	mkdir $oldDir
-fi
-
-for file in $(ls $fileDir) ##  "${files[@]}"
-do
-	if [ -d $fileDir/$file ]; then
-		if [ ! -d "~/$file" ]; then
-			mkdir ~/$file
-		fi
-		for inner in $(ls $fileDir/$file); do
-			if [ -f ~/$file/$inner ]; then
-				mv ~/$file/$inner "$oldDir/$file..$inner" &&
-				ln -s "$fileDir/$file/$inner" ~/$file/$inner
+function rlink {
+	####  recursively link files and create subdirectories as needed
+	##
+	## $1 = directory to link from
+	## $2 = directory in which to link files.
+	fromDir=$1
+	toDir=$2
+	for now in $(ls -A $fromDir); do
+		from="$fromDir/$now"
+		to=$toDir/$now
+		if [ -f $from ]; then
+			if [ -f $to ]; then
+				tmp=$(echo $to | tr "/" "+")
+				mv $to $old/$tmp && echo "Moved $to to $old/$tmp" >> $logFile
 			fi
-		done
-	elif [ -f ~/$file ]; then
-		mv ~/$file $oldDir/$file
-	fi
-	ln -s $fileDir/$file ~/$file ||
-		echo "symlink error ==> $file\n" >> $errorFile
-done
+			ln -s $from $to
+		elif [ -d $from ]; then
+			if [ ! -d $to ]; then
+				mkdir $to
+			fi
+			rlink $from $to
+		fi
+	done
+}
+fileDir="~/.dotfiles/home"
+rlink $fileDir $HOME
+##  for file in $(ls -A $fileDir) ##  "${files[@]}"
+##  do
+##  	if [ -d $fileDir/$file ]; then
+##  		if [ ! -d "~/$file" ]; then
+##  			mkdir ~/$file
+##  		fi
+##  		for inner in $(ls $fileDir/$file); do
+##  			if [ -f ~/$file/$inner ]; then
+##  				mv ~/$file/$inner "$oldDir/$file..$inner" &&
+##  				ln -s "$fileDir/$file/$inner" ~/$file/$inner
+##  			fi
+##  		done
+##  	elif [ -f ~/$file ]; then
+##  		mv ~/$file $oldDir/$file
+##  	fi
+##  	ln -s $fileDir/$file ~/$file ||
+##  		echo "symlink error ==> $file\n" >> $errorFile
+##  done
 
 
 sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
@@ -111,9 +138,9 @@ sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
 	do
 		sudo -H pip install $package ||
-			echo "pip install error ==> $package\n" >> $errorFile
-		sudo -H pip3 install $package ||
-			echo "pip install error ==> $package\n" >> $errorFile
+			echo "pip install error ==> $package" >> $errorFile
+		sudo -H pip2 install $package ||
+			echo "pip2 install error ==> $package" >> $errorFile
 	done
 
 echo "================================================="
@@ -127,7 +154,22 @@ packages=("bundler" "jekyll")
 for package in "${packages[@]}"
 do
 	gem install $package ||
-		echo "gem install error ==> $package\n" >> $tmpDir/errors.txt
+		echo "gem install error ==> $package" >> $errorFile
+done
+
+
+echo "================================================="
+echo "================================================="
+echo "=====================  R  ======================="
+echo "================================================="
+echo "================================================="
+
+## ruby gems
+packages=("dplyr" "tidyverse" "rmarkdown")
+for package in "${packages[@]}"
+do
+	R -e "install.packages($package)" ||
+		echo "R install error ==> $package" >> $errorFile
 done
 
 echo "Y'all have a good day now, y'hear?"
