@@ -12,6 +12,7 @@ export EDITOR=vim
 export TERM="xterm-256color"
 # export COLORTERM="rxvt-256color"
 
+
 # If not running interactively, don't do anything
 case $- in
 	*i*) ;;
@@ -121,6 +122,9 @@ if [ -d $compDir ]; then
 	done
 fi
 unset compDir
+
+# ignore __pycache__ from autocomplete
+export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
 ### }}}
 
