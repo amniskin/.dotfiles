@@ -58,7 +58,7 @@ conky.config = {
 	color3 = '#888888',
 	color4 = '#EF5A29',
 
-	lua_load = 'conky_orange.lua',
+	lua_load = 'conky_orange_4k.lua',
 	lua_draw_hook_post = 'main',
 
 --${voffset 45}
@@ -78,28 +78,30 @@ ${goto 133}${color1}${voffset -2}${font ubuntu:size=10}${time %a}
 ${font}
 
 ${voffset 10}
-${goto 100}${color}Core 1: ${freq_g (1)} GHz ${color4}${exec sensors | grep "Core 0" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu1}%
-${goto 100}${color}Core 2: ${freq_g (2)} GHz ${color4}${exec sensors | grep "Core 1" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu2}%
-${goto 100}${color}Core 3: ${freq_g (3)} GHz ${color4}${exec sensors | grep "Core 2" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu3}%
-${goto 100}${color}Core 4: ${freq_g (4)} GHz ${color4}${exec sensors | grep "Core 3" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu4}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top name 1}${alignr}${top cpu 1}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top name 2}${alignr}${top cpu 2}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top name 3}${alignr}${top cpu 3}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top name 4}${alignr}${top cpu 4}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top name 5}${alignr}${top cpu 5}%
-${goto 100}${voffset -4}${cpugraph 35,200 666666 666666}
-${goto 100}${voffset -8}${font Ubuntu:normal:size=7}${color}${threads} process 
+${goto 80}${font Ubuntu:bold:size=18}${color3}CPUs
+${goto 90}${font Ubuntu:bold:size=7}${color}Core 1: ${freq_g (1)} GHz ${color4}${exec sensors | grep "Core 0" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu1}%
+${goto 90}${font Ubuntu:bold:size=7}${color}Core 2: ${freq_g (2)} GHz ${color4}${exec sensors | grep "Core 1" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu2}%
+${goto 90}${font Ubuntu:bold:size=7}${color}Core 3: ${freq_g (3)} GHz ${color4}${exec sensors | grep "Core 2" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu3}%
+${goto 90}${font Ubuntu:bold:size=7}${color}Core 4: ${freq_g (4)} GHz ${color4}${exec sensors | grep "Core 3" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu4}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 1}${alignr}${top cpu 1}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 2}${alignr}${top cpu 2}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 3}${alignr}${top cpu 3}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 4}${alignr}${top cpu 4}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 5}${alignr}${top cpu 5}%
+${goto 90}${voffset -4}${cpugraph 35,200 666666 666666}
+${goto 90}${voffset -8}${font Ubuntu:normal:size=7}${color}${threads} process 
 
 ${voffset 8}
-${goto 100}${font Ubuntu:bold:size=7}${color}MEM: ${mem} / ${memmax} ${alignr} ${memperc}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top_mem name 3}${alignr}${top_mem mem 3}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top_mem name 4}${alignr}${top_mem mem 4}%
-${goto 100}${font Ubuntu:normal:size=7}${color1}${top_mem name 5}${alignr}${top_mem mem 5}%
+${goto 80}${font Ubuntu:bold:size=18}${color3}MEM: ${font Ubuntu:bold:size=7}${color}${mem} / ${memmax} ${alignr} ${memperc}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 3}${alignr}${top_mem mem 3}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 4}${alignr}${top_mem mem 4}%
+${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 5}${alignr}${top_mem mem 5}%
 
 ${voffset 12}
-${goto 110}${font Ubuntu:bold:size=7}${color}DISKS % ${font Ubuntu:normal:size=7}${color3}used: ${color1}${fs_used /}
+${goto 80}${font Ubuntu:bold:size=18}${color3}I/O
+${goto 110}${font Ubuntu:bold:size=7}${color}DISK ${font Ubuntu:normal:size=7}${color3}used: ${color1}${fs_used /}
 
 ${goto 110}${diskiograph 30,200 666666 666666}${voffset -30}
 
@@ -119,7 +121,6 @@ ${goto 95}${color3}${downspeedgraph eth1 30,60 ${color2} 676f9d} ${goto 235}${co
 #${color}Total: ${totaldown eth1} ${alignr}Total: ${totalup eth1}
 
 ${voffset -25}
-${goto 95}${font Ubuntu:normal:size=7}${color3}ping time to Yahoo:${alignr} ${font Ubuntu:normal:size=7}${color}${exec ping -c 1 -W 1 98.138.253.109 | grep -Eo "time=.+"  | cut -c6-14} 
 
 ${voffset -20}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}NET${alignr}${color3}${font Ubuntu:bold:size=7}${color3}${alignr}${if_up eth1}eth ${addr eth1}${endif}${if_up wlan0}wifi ${addr wlan0}${endif}

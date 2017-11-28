@@ -1,5 +1,5 @@
 #!/bin/bash
 
-conky -c conky/conkyrc
+conky -c $HOME/.dotfiles/bin/conky/conkyrc &&
 
-exit 0
+	exit 0

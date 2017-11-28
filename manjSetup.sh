@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tmpDir=~/Documents/installScriptTmp
+tmpDir=$HOME/Documents/installScriptTmp
 if [ ! -d $tmpDir ]; then
 	mkdir $tmpDir
 fi
@@ -19,8 +19,8 @@ fi
 
 echo "Making directories..."
 
-oldDir="~/old"
-dirs=("$oldDir" "~/.r" "~/.config" "~/.config/r")
+oldDir="$HOME/old"
+dirs=("$oldDir" "$HOME/.r" "$HOME/.config" "$HOME/.config/r")
 for dir in "${dirs[@]}"; do
 	if [ ! -d $dir ]; then
 		mkdir $dir && echo "Made directory at $dir" >> $logFile
@@ -47,7 +47,7 @@ echo "updating repos..."
 sudo pacman -Syu
 
 ## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" "gcc" "g++" 
-packages=("vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-most" "texlive-lang" "ninvaders" "feh" "gimp" "xclip" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux" "tk" "pulseaudio-ctl" "pa-applet" "kcalc")
+packages=("xclip" "bash-completion" "vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "ninvaders" "feh" "gimp" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux" "tk" "pulseaudio-ctl" "pa-applet" "kcalc" "qt4" "texlive-most" "dosfstools" "postgresql" "mongodb" "conky-lua-nv" "udisks2")
 
 counter=0
 for package in "${packages[@]}"
@@ -67,7 +67,7 @@ git config --global user.email "amniskin@gmail.com"&&
 	git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
-git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
+git clone https://github.com/amniskin/.dotfiles.git $HOME/.dotfiles
 ## linking my dotfiles
 # files=(".vimrc" ".bashrc" ".mrjob.conf" ".i3/config" ".i3/i3status.conf")
 
@@ -78,50 +78,47 @@ function rlink {
 	## $2 = directory in which to link files.
 	fromDir=$1
 	toDir=$2
-	for now in $(ls -A $fromDir); do
-		from="$fromDir/$now"
-		to=$toDir/$now
+	for from in $(find $fromDir); do
+		to=$(echo $from | sed 's/\/.dotfiles\/home//')
 		if [ -f $from ]; then
 			if [ -f $to ]; then
-				tmp=$(echo $to | tr "/" "+")
-				mv $to $old/$tmp && echo "Moved $to to $old/$tmp" >> $logFile
+				tmp=$toDir/$(echo $to | tr "/" "+")
+				mv $to $oldDir/$tmp && echo "moved $to to $oldDir/$tmp" >> $logFile
 			fi
-			ln -s $from $to
-		elif [ -d $from ]; then
-			if [ ! -d $to ]; then
-				mkdir $to
-			fi
-			rlink $from $to
+			echo "Linking $from $to"
+			ln -s $from $to || echo "failed symbolic link from $from to $to"
+		else
+			echo "skipping $from"
 		fi
 	done
 }
-fileDir="~/.dotfiles/home"
+fileDir="$HOME/.dotfiles/home"
 rlink $fileDir $HOME
 ##  for file in $(ls -A $fileDir) ##  "${files[@]}"
 ##  do
 ##  	if [ -d $fileDir/$file ]; then
-##  		if [ ! -d "~/$file" ]; then
-##  			mkdir ~/$file
+##  		if [ ! -d "$HOME/$file" ]; then
+##  			mkdir $HOME/$file
 ##  		fi
 ##  		for inner in $(ls $fileDir/$file); do
-##  			if [ -f ~/$file/$inner ]; then
-##  				mv ~/$file/$inner "$oldDir/$file..$inner" &&
-##  				ln -s "$fileDir/$file/$inner" ~/$file/$inner
+##  			if [ -f $HOME/$file/$inner ]; then
+##  				mv $HOME/$file/$inner "$oldDir/$file..$inner" &&
+##  				ln -s "$fileDir/$file/$inner" $HOME/$file/$inner
 ##  			fi
 ##  		done
-##  	elif [ -f ~/$file ]; then
-##  		mv ~/$file $oldDir/$file
+##  	elif [ -f $HOME/$file ]; then
+##  		mv $HOME/$file $oldDir/$file
 ##  	fi
-##  	ln -s $fileDir/$file ~/$file ||
+##  	ln -s $fileDir/$file $HOME/$file ||
 ##  		echo "symlink error ==> $file\n" >> $errorFile
 ##  done
 
 
 sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
 
-mkdir ~/.vim-tmp
+mkdir $HOME/.vim-tmp
 echo "installing VimVundle... "
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 echo "installing Vim Pluggins... "
 vim +PluginInstall +qall
 
@@ -137,9 +134,9 @@ packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels"
 sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
 	do
-		sudo -H pip install $package ||
+		sudo pip install $package ||
 			echo "pip install error ==> $package" >> $errorFile
-		sudo -H pip2 install $package ||
+		sudo pip2 install $package ||
 			echo "pip2 install error ==> $package" >> $errorFile
 	done
 
@@ -168,7 +165,7 @@ echo "================================================="
 packages=("dplyr" "tidyverse" "rmarkdown")
 for package in "${packages[@]}"
 do
-	R -e "install.packages($package)" ||
+	R -e "install.packages(\"$package\", lib=\"$HOME/.r\")" ||
 		echo "R install error ==> $package" >> $errorFile
 done
 
