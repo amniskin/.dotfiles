@@ -43,6 +43,13 @@ done
 echo Setting up ssh keys...
 ssh-keygen -t rsa
 
+
+echo "================================================="
+echo "================================================="
+echo "==================   PacMan   ==================="
+echo "================================================="
+echo "================================================="
+
 echo "updating repos..."
 sudo pacman -Syu
 
@@ -67,54 +74,22 @@ git config --global user.email "amniskin@gmail.com"&&
 	git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
-git clone https://github.com/amniskin/.dotfiles.git $HOME/.dotfiles
+git clone git@github.com:amniskin/.dotfiles.git $HOME/.dotfiles
 ## linking my dotfiles
-# files=(".vimrc" ".bashrc" ".mrjob.conf" ".i3/config" ".i3/i3status.conf")
 
-function rlink {
-	####  recursively link files and create subdirectories as needed
-	##
-	## $1 = directory to link from
-	## $2 = directory in which to link files.
-	fromDir=$1
-	toDir=$2
-	for from in $(find $fromDir); do
-		to=$(echo $from | sed 's/\/.dotfiles\/home//')
-		if [ -f $from ]; then
-			if [ -f $to ]; then
-				tmp=$toDir/$(echo $to | tr "/" "+")
-				mv $to $oldDir/$tmp && echo "moved $to to $oldDir/$tmp" >> $logFile
-			fi
-			echo "Linking $from $to"
-			ln -s $from $to || echo "failed symbolic link from $from to $to"
-		else
-			echo "skipping $from"
+for from in $(find $HOME/.dotfiles/home); do
+	to=$(echo $from | sed 's/\/.dotfiles\/home//')
+	if [ -f $from ]; then
+		if [ -f $to ]; then
+			tmp=$toDir/$(echo $to | tr "/" "+")
+			mv $to $oldDir/$tmp && echo "moved $to to $oldDir/$tmp" >> $logFile
 		fi
-	done
-}
-fileDir="$HOME/.dotfiles/home"
-rlink $fileDir $HOME
-##  for file in $(ls -A $fileDir) ##  "${files[@]}"
-##  do
-##  	if [ -d $fileDir/$file ]; then
-##  		if [ ! -d "$HOME/$file" ]; then
-##  			mkdir $HOME/$file
-##  		fi
-##  		for inner in $(ls $fileDir/$file); do
-##  			if [ -f $HOME/$file/$inner ]; then
-##  				mv $HOME/$file/$inner "$oldDir/$file..$inner" &&
-##  				ln -s "$fileDir/$file/$inner" $HOME/$file/$inner
-##  			fi
-##  		done
-##  	elif [ -f $HOME/$file ]; then
-##  		mv $HOME/$file $oldDir/$file
-##  	fi
-##  	ln -s $fileDir/$file $HOME/$file ||
-##  		echo "symlink error ==> $file\n" >> $errorFile
-##  done
-
-
-sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
+		echo "Linking $from $to"
+		ln -s $from $to || echo "failed symbolic link from $from to $to"
+	else
+		echo "skipping $from"
+	fi
+done
 
 mkdir $HOME/.vim-tmp
 echo "installing VimVundle... "
@@ -122,9 +97,12 @@ git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.v
 echo "installing Vim Pluggins... "
 vim +PluginInstall +qall
 
+echo "===================   Boot   ===================="
+sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
+
 echo "================================================="
 echo "================================================="
-echo "=====================   pip   ==================="
+echo "====================   pip   ===================="
 echo "================================================="
 echo "================================================="
 

@@ -57,6 +57,7 @@ conky.config = {
 	color2 = '#AAAAAA',
 	color3 = '#888888',
 	color4 = '#EF5A29',
+	color5 = '#eebb11',
 
 	lua_load = 'conky_orange_4k.lua',
 	lua_draw_hook_post = 'main',
@@ -79,20 +80,16 @@ ${font}
 
 ${voffset 10}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}CPUs
-${goto 90}${font Ubuntu:bold:size=7}${color}Core 1: ${freq_g (1)} GHz ${color4}${exec sensors | grep "Core 0" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu1}%
-${goto 90}${font Ubuntu:bold:size=7}${color}Core 2: ${freq_g (2)} GHz ${color4}${exec sensors | grep "Core 1" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu2}%
-${goto 90}${font Ubuntu:bold:size=7}${color}Core 3: ${freq_g (3)} GHz ${color4}${exec sensors | grep "Core 2" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu3}%
-${goto 90}${font Ubuntu:bold:size=7}${color}Core 4: ${freq_g (4)} GHz ${color4}${exec sensors | grep "Core 3" | cut --bytes=14-21}${color}°C $alignr ${cpu cpu4}%
+${alignr} ${color5}${cpugraph -t 35,200}
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 1}${alignr}${top cpu 1}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 2}${alignr}${top cpu 2}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 3}${alignr}${top cpu 3}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 4}${alignr}${top cpu 4}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 5}${alignr}${top cpu 5}%
-${goto 90}${voffset -4}${cpugraph 35,200 666666 666666}
-${goto 90}${voffset -8}${font Ubuntu:normal:size=7}${color}${threads} process 
 
 ${voffset 8}
-${goto 80}${font Ubuntu:bold:size=18}${color3}MEM: ${font Ubuntu:bold:size=7}${color}${mem} / ${memmax} ${alignr} ${memperc}%
+${goto 80}${font Ubuntu:bold:size=18}${color3}MEM: ${font Ubuntu:bold:size=7}${color2}${alignr}${membar 10,130}
+${alignr}${memgraph 18,200 333333 eebb11}
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 3}${alignr}${top_mem mem 3}%
@@ -101,9 +98,9 @@ ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 5}${alignr}${top_m
 
 ${voffset 12}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}I/O
+${alignr}${diskiograph 30,200 666666 eebb11}
 ${goto 110}${font Ubuntu:bold:size=7}${color}DISK ${font Ubuntu:normal:size=7}${color3}used: ${color1}${fs_used /}
 
-${goto 110}${diskiograph 30,200 666666 666666}${voffset -30}
 
 # added by me for temps
 ${voffset 20}${goto 95}${font Ubuntu:bold:size=7}${color2}${voffset -2}${font Ubuntu:bold:size=7}${color3}${offset 0}Disk Issue ?${voffset 10}${font Ubuntu:bold:size=7}${color4}${execi 30 udisks --show-info /dev/sda | tail -14 | grep -viE 'good|n/a' | cut -c2-19,41-49,52-57}${font}
