@@ -73,14 +73,11 @@ conky.config = {
 
 conky.text = [[
 ${voffset 112}
-${goto 133}${color4}${font ubuntu:size=18}${time %e}
-${goto 118}${color2}${voffset -6}${font ubuntu:size=9}${time %b}${voffset -1} ${color3}${font ubuntu:size=10}${time %Y}
-${goto 133}${color1}${voffset -2}${font ubuntu:size=10}${time %a}
 ${font}
 
 ${voffset 10}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}CPUs
-${alignr} ${color5}${cpugraph -t 35,200}
+${alignr} ${cpugraph -t 35,200 666666 eebb11}
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 1}${alignr}${top cpu 1}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 2}${alignr}${top cpu 2}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 3}${alignr}${top cpu 3}%
@@ -89,7 +86,7 @@ ${goto 90}${font Ubuntu:normal:size=7}${color1}${top name 5}${alignr}${top cpu 5
 
 ${voffset 8}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}MEM: ${font Ubuntu:bold:size=7}${color2}${alignr}${membar 10,130}
-${alignr}${memgraph 18,200 333333 eebb11}
+${alignr}${memgraph 18,200 666666 eebb11}
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 1}${alignr}${top_mem mem 1}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
 ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 3}${alignr}${top_mem mem 3}%
@@ -99,7 +96,7 @@ ${goto 90}${font Ubuntu:normal:size=7}${color1}${top_mem name 5}${alignr}${top_m
 ${voffset 12}
 ${goto 80}${font Ubuntu:bold:size=18}${color3}I/O
 ${alignr}${diskiograph 30,200 666666 eebb11}
-${goto 110}${font Ubuntu:bold:size=7}${color}DISK ${font Ubuntu:normal:size=7}${color3}used: ${color1}${fs_used /}
+${goto 110}${font Ubuntu:bold:size=7}${color}DISK: ${font Ubuntu:normal:size=7}${color3}used: ${color1}${fs_used /}
 
 
 # added by me for temps

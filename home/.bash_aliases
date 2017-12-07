@@ -33,6 +33,9 @@ alias j-pdf='jupyter nbconvert --to=pdf --template=latex.tplx'
 alias jupnot='chromium && jupyter-notebook'
 
 
+alias skype='chromium --app=https://web.skype.com'
+
+
 alias fixit='sudo rm -f /var/lib/pacman/db.lck'
 alias mirrors='sudo pacman-mirrors -g'
 alias printer='system-config-printer'

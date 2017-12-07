@@ -117,6 +117,20 @@ bindsym Ctrl+Print exec --no-startup-id i3-scrot -s
 
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
+# Start scratchpad apps {{{
+# music (spotify firefox)
+set $musicUrl https://open.spotify.com/
+bindsym $mod+Shift+apostrophe exec --no-startup-id firefox -P music --class=music --new-window $musicUrl
+for_window [class=music]  focus, move scratchpad, scratchpad show
+bindsym $mod+apostrophe [class=music] scratchpad show
+
+# top scratchpad
+bindsym $mod+Shift+slash exec --no-startup-id terminal -name top -e htop
+for_window [instance=top] focus, move scratchpad, scratchpad show
+bindsym $mod+slash      [instance=top] scratchpad show
+
+###### }}}
+
 ################# }}}
 
 # movement {{{
