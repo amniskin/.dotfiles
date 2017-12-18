@@ -55,7 +55,7 @@ function mp ()
 function mkcd ()
 {
 	if [ ! -d "$1" ]; then
-		mkdir "$1" && echo "Made new directory at " $(pwd)"/$1" && cd "$1"
+		mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
 	fi
 }
 

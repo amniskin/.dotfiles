@@ -114,8 +114,6 @@ sudo pip install --upgrade pip &&
 	do
 		sudo pip install $package ||
 			echo "pip install error ==> $package" >> $errorFile
-		sudo pip2 install $package ||
-			echo "pip2 install error ==> $package" >> $errorFile
 	done
 
 echo "================================================="
