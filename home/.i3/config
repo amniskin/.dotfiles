@@ -120,7 +120,7 @@ bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 # Start scratchpad apps {{{
 # music (spotify firefox)
 set $musicUrl https://open.spotify.com/
-bindsym $mod+Shift+apostrophe exec --no-startup-id firefox -P music --class=music --new-window $musicUrl
+bindsym $mod+Shift+apostrophe exec --no-startup-id palemoon -P music --class=music --new-window $musicUrl
 for_window [class=music]  focus, move scratchpad, scratchpad show
 bindsym $mod+apostrophe [class=music] scratchpad show
 

@@ -61,7 +61,7 @@ for package in "${packages[@]}"
 do
 	counter=$(($counter + 1))
 	echo -n "installing $counter package --  $package..." &&
-		sudo pacman -S --noconfirm $package || echo "install error ==> $package" >> $errorFile
+		sudo -H pacman -S --noconfirm $package || echo "install error ==> $package" >> $errorFile
 done
 
 echo "================================================="
@@ -107,14 +107,24 @@ echo "================================================="
 echo "================================================="
 
 ##  pip packages
-packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython" "jupyter")
+packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython")
 
 sudo pip install --upgrade pip &&
+	sudo -H pip install jupyter &&
 	for package in "${packages[@]}"
 	do
-		sudo pip install $package ||
+		sudo -H pip install $package ||
+			echo "pip install error ==> $package" >> $errorFile
+		sudo -H pip2 install $package ||
 			echo "pip install error ==> $package" >> $errorFile
 	done
+
+sudo -H pip install jupyter &&
+	sudo -H pip2 install ipykernel &&
+	python2 -m ipykernel install --user
+sudo -H pip install jupyter_contrib_nbextensions &&
+	jupyter contrib nbextension install --user
+
 
 echo "================================================="
 echo "================================================="
