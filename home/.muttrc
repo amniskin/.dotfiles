@@ -1,0 +1,24 @@
+unmy_hdr *
+my_hdr X-Homepage: http://aaron.niskin.org
+## my_hdr X-GPG-Key: http://aaron.niskin.org/aniskin.asc
+
+set from="amniskin@gmail.com"
+set realname="Aaron Niskin"
+set signature='~/.dotfiles/signature'
+
+
+set folder=~/.mail      # there are the mailboxes (+ / = are shortcuts for it now)
+set mbox_type=mbox      # see the wiki, there are 4 to choose from.
+                        # mbox is here a way 'how' to store mails. Below is mbox meant
+                        # as a 'mailbox' where read mails are saved ouf of the
+                        # inbox ($spoolfile).
+
+set spoolfile=+inbox    # incoming mails (~/.mail/inbox)
+set move=yes            # yes (move read mails automatically to $mbox)
+set keep_flagged=yes    # esc-f to mark message in spool, and it won't move to $mbox)
+set mbox=+read_inbox           # ~/.mail/read_inbox
+set postponed=+postponed       # an 'internal' box for mutt basically
+set record="+Sent-`date +%Y`"  # sent messages goes there (e.g. $folder/Sent-2006)
+
+set header_cache=~/.mail/mutt_cache/ # a much faster opening of mailboxes...
+

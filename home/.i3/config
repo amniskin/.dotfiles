@@ -118,15 +118,23 @@ bindsym Ctrl+Print exec --no-startup-id i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # Start scratchpad apps {{{
+#
+# Signal
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+semicolon [class=Signal] move scratchpad
+bindsym $mod+semicolon    [instance=Signal] scratchpad show
+bindsym $mod+Ctrl+semicolon scratchpad show
+
+
 # music (spotify firefox)
 set $musicUrl https://open.spotify.com/
-bindsym $mod+Shift+apostrophe exec --no-startup-id palemoon -P music --class=music --new-window $musicUrl
 for_window [class=music]  focus, move scratchpad, scratchpad show
+bindsym $mod+Shift+apostrophe exec --no-startup-id palemoon -P music --class=music --new-window $musicUrl
 bindsym $mod+apostrophe [class=music] scratchpad show
 
 # top scratchpad
-bindsym $mod+Shift+slash exec --no-startup-id terminal -name top -e htop
 for_window [instance=top] focus, move scratchpad, scratchpad show
+bindsym $mod+Shift+slash exec --no-startup-id terminal -name top -e htop
 bindsym $mod+slash      [instance=top] scratchpad show
 
 ###### }}}
@@ -191,13 +199,6 @@ bindsym $mod+Shift+s sticky toggle
 
 bindsym $mod+a focus parent
 bindsym $mod+Shift+a focus child
-
-# move the currently focused window to the scratchpad
-bindsym $mod+Shift+semicolon move scratchpad
-
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+semicolon scratchpad show
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
