@@ -97,6 +97,8 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym Ctrl+XF86MonBrightnessUp exec "sh ~/.dotfiles/bin/brightness.sh SET UP; notify-send 'brightness up'"
+bindsym Ctrl+XF86MonBrightnessDown exec "sh ~/.dotfiles/bin/brightness.sh SET DOWN; notify-send 'brightness down'"
 
 # Start Applications
 bindsym $mod+Ctrl+space exec kcalc
