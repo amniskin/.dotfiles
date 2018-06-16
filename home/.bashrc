@@ -172,3 +172,10 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
 
 ############ }}}
+
+
+
+### path  {{{
+export PATH="$PATH:~/.local/bin:~/.gem/ruby/2.5.0/bin"
+
+### }}}
