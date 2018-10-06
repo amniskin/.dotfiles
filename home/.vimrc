@@ -49,6 +49,9 @@ Plugin 'jceb/vim-orgmode'
 " " R
 Plugin 'jalvesaq/nvim-r'
 
+" " Rust
+Plugin 'rust-lang/rust.vim'
+
 " " clojure
 Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-sexp'
@@ -135,6 +138,7 @@ augroup fileAssociations
 	autocmd BufRead,BufNewFile *.org            set filetype=org
 	autocmd BufRead,BufNewFile *.yaml           set filetype=yaml
 	autocmd BufRead,BufNewFile *.py             set filetype=python
+	autocmd BufRead,BufNewFile *.rs             set filetype=rust
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
 	autocmd BufRead,BufNewFile *.conf           set filetype=conf
@@ -147,7 +151,8 @@ augroup fileAssociations
 	autocmd FileType cpp        setlocal sw=4 ts=4 sts=4
 	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
 	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
-	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai noexpandtab
+	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai expandtab
+	autocmd FileType rust       setlocal sw=4 ts=4 sts=4 ai expandtab
 	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2
 	" FileType specific keybindings
 	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ -std=c++11 %
