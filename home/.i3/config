@@ -3,11 +3,11 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
-set $mod Mod1
+set $mod Mod4
 set $dotfiles /home/amniskin/.dotfiles
 
 # swap caps
-exec_always setxkbmap -option ctrl:swapcaps
+# exec_always setxkbmap -option ctrl:swapcaps
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
