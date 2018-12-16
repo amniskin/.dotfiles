@@ -52,6 +52,11 @@ Plugin 'jalvesaq/nvim-r'
 " " Rust
 Plugin 'rust-lang/rust.vim'
 
+" " Python
+" Plugin 'vim-scripts/pylint.vim'
+Plugin 'vim-syntastic/syntastic'
+" Plugin 'PyCQA/flake8'
+
 " " clojure
 Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-sexp'
@@ -90,6 +95,22 @@ syntax on "enable
 colorscheme distinguished
 " colorscheme github
 " " }}}
+
+" linting {{{
+"" let g:syntastic_<filetype>_checkers = ['<checker-name>']
+let g:syntastic_python_checkers = ['python', 'pylint']
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_check_on_w  = 1
+" }}}
+
 
 " Airline{{{
 let g:airline_theme = g:colors_name
@@ -152,6 +173,7 @@ augroup fileAssociations
 	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
 	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
 	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai expandtab
+	" autocmd FileType python     set omnifunc=pythoncomplete#Complete
 	autocmd FileType rust       setlocal sw=4 ts=4 sts=4 ai expandtab
 	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2
 	" FileType specific keybindings
