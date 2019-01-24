@@ -107,13 +107,13 @@ packages=("jupyter" "jupyter_contrib_nbextensions" "py3status" "numpy" "pandas" 
 sudo pip install --upgrade pip &&
 	for package in "${packages[@]}"
 	do
-		sudo -H pip install $package ||
+		pip install --user $package ||
 			echo "pip install error ==> $package\n" >> $logFile
 	done
 
 jupyter contrib nbextension install --user
 
-sudo -H pip2 install ipykernel &&
+pip2 install --user ipykernel &&
 	python2 -m ipykernel install --user
 
 ##  echo "================================================="
