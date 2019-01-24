@@ -1,3 +1,7 @@
+" Author            : Aaron Niskin <aaron@niskin.org>
+" Date              : 2019-01-20
+" Last Modified Date: 2019-01-20
+" Last Modified By  : Aaron Niskin <aaron@niskin.org>
 " required by vundle {{{
 "
 set nocompatible
@@ -22,7 +26,7 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'
 Plugin 'vim-pandoc/vim-rmarkdown'
 "
 " git
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/gist-vim'
 "
 " " searching
@@ -33,6 +37,7 @@ Plugin 'mattn/gist-vim'
 Plugin 'ervandew/supertab'
 "
 " " editing
+Plugin 'alpertuna/vim-header'
 "Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 "
@@ -40,8 +45,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-speeddating'
 Plugin 'jceb/vim-orgmode'
 " Plugin 'vim-scripts/vim-orgmode'
-"Plugin 'tpope/vim-dispatch'
-"Plugin 'tpope/vim-projectionist'
 "
 " " html
 "Plugin 'mattn/emmet-vim'
@@ -52,18 +55,22 @@ Plugin 'jalvesaq/nvim-r'
 " " Rust
 Plugin 'rust-lang/rust.vim'
 
-" " Python
+" " Linters
 " Plugin 'vim-scripts/pylint.vim'
 Plugin 'vim-syntastic/syntastic'
+" Plugin 'aclaimant/syntastic-joker'
 " Plugin 'PyCQA/flake8'
 
 " " clojure
-Plugin 'tpope/vim-fireplace'
 Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'guns/vim-clojure-static'
 Plugin 'guns/vim-clojure-highlight'
-"Plugin 'rkneufeld/vim-boot'
+" " Clojure repl
+Plugin 'tpope/vim-projectionist'
+Plugin 'tpope/vim-salve'
+Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-fireplace'
 "
 " " coffeescript
 "Plugin 'kchmck/vim-coffee-script'
@@ -99,6 +106,7 @@ colorscheme distinguished
 " linting {{{
 "" let g:syntastic_<filetype>_checkers = ['<checker-name>']
 let g:syntastic_python_checkers = ['python', 'pylint']
+let g:syntastic_clojure_checkers = ['syntastic-joker']
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -111,6 +119,13 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_w  = 1
 " }}}
 
+" {{{ vim-header
+let g:header_field_author = 'Aaron Niskin'
+let g:header_field_author_email = 'aaron@niskin.org'
+let g:header_field_filename = 0
+let g:header_field_timestamp_format = '%Y-%m-%d'
+let g:header_exclude_file_types = ['rst']
+" }}}
 
 " Airline{{{
 let g:airline_theme = g:colors_name
@@ -147,6 +162,7 @@ augroup vanilla
 	" To load .vimrc file from local directory
 	autocmd BufRead,BufNewFile * set exrc
 	autocmd BufRead,BufNewFile * set secure
+	autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 "}}}
 

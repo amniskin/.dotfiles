@@ -1,3 +1,8 @@
+#!/bin/bash
+# Author            : Aaron Niskin <aaron@niskin.org>
+# Date              : 2019-01-20
+# Last Modified Date: 2019-01-20
+# Last Modified By  : Aaron Niskin <aaron@niskin.org>
 # export QT_SELECT=4
 
 ##  # Enable history appending instead of overwriting.  #139609
@@ -140,7 +145,7 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 ##  esac
 
 ##  use_color=true
-##  
+##
 ##  # Set colorful PS1 only on colorful terminals.
 ##  # dircolors --print-database uses its own built-in database
 ##  # instead of using /etc/DIR_COLORS.  Try to use the external file
@@ -154,7 +159,7 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 ##  	&& type -P dircolors >/dev/null \
 ##  	&& match_lhs=$(dircolors --print-database)
 ##  [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
-##  
+##
 ##  if ${use_color} ; then
 ##  	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
 ##  	if type -P dircolors >/dev/null ; then
@@ -165,9 +170,9 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 ##  		fi
 ##  	fi
 ##  fi
-##  
+##
 ##  unset use_color safe_term match_lhs sh
-##  
+##
 
 
 
@@ -177,5 +182,6 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
 ### path  {{{
 export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
+export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
 
 ### }}}
