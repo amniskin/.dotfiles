@@ -471,7 +471,7 @@ bar {
 	#	tray_output eDP1
 	bindsym button4 nop
 	bindsym button5 nop
-	font xft:Noto Sans 8
+	font xft:Noto Sans 7
 	strip_workspace_numbers yes
 	colors {
 		# background $transparent

@@ -41,7 +41,7 @@ for file in "${files[@]}"; do
 done
 
 echo Setting up ssh keys...
-ssh-keygen -t rsa
+# ssh-keygen -t rsa
 
 
 echo "================================================="
@@ -51,17 +51,17 @@ echo "================================================="
 echo "================================================="
 
 echo "updating repos..."
-sudo pacman -Syu
+sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
 
-## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" "gcc" "g++" 
-packages=("xclip" "bash-completion" "vim" "git" "python2-pip" "python-pip" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "ninvaders" "feh" "gimp" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux" "tk" "pulseaudio-ctl" "pa-applet" "kcalc" "qt4" "texlive-most" "dosfstools" "postgresql" "mongodb" "conky-lua-nv" "udisks2")
+## apt-get packages... Left out: "mongodb" "postgresql" "xbacklight" "i3" "gcc" "g++"
+packages=("xclip" "bash-completion" "vim" "git" "curl" "ruby" "ruby-dev" "tree" "chromium" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "ninvaders" "feh" "gimp" "transmission" "r" "pandoc" "jdk8-openjdk" "jdk9-openjdk" "tmux" "tk" "pulseaudio-ctl" "pa-applet" "kcalc" "qt4" "texlive-most" "dosfstools" "postgresql" "mongodb" "conky-lua-nv" "py3status" "udisks2" "jupyter-notebook" "cython" "python-pandas" "python-matplotlib" "python-scikit-learn" "python-statsmodels" "python-gensim" "python-beautifulsoup4" "python-scipy" "powerline-status")
 
 counter=0
 for package in "${packages[@]}"
 do
 	counter=$(($counter + 1))
 	echo -n "installing $counter package --  $package..." &&
-		sudo -H pacman -S --noconfirm $package || echo "install error ==> $package" >> $errorFile
+		sudo pacman -S --noconfirm $package || echo "install error ==> $package" >> $errorFile
 done
 
 echo "================================================="
@@ -74,7 +74,7 @@ git config --global user.email "amniskin@gmail.com"&&
 	git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
-git clone git@github.com:amniskin/.dotfiles.git $HOME/.dotfiles
+git clone git@github.com:amniskin/.dotfiles.git $HOME/.dotfiles2
 ## linking my dotfiles
 
 for from in $(find $HOME/.dotfiles/home); do
@@ -107,23 +107,16 @@ echo "================================================="
 echo "================================================="
 
 ##  pip packages
-packages=("py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython")
+# packages=()
+#
+# for package in "${packages[@]}"
+# do
+# 	sudo pacman -S python-$package ||
+# 		echo "install error ==> $package" >> $errorFile
+# done
 
-sudo pip install --upgrade pip &&
-	sudo -H pip install jupyter &&
-	for package in "${packages[@]}"
-	do
-		sudo -H pip install $package ||
-			echo "pip install error ==> $package" >> $errorFile
-		sudo -H pip2 install $package ||
-			echo "pip install error ==> $package" >> $errorFile
-	done
-
-sudo -H pip install jupyter &&
-	sudo -H pip2 install ipykernel &&
-	python2 -m ipykernel install --user
-sudo -H pip install jupyter_contrib_nbextensions &&
-	jupyter contrib nbextension install --user
+# sudo pacman -S jupyter_contrib_nbextensions &&
+jupyter contrib nbextension install --user
 
 
 echo "================================================="

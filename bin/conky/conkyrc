@@ -3,7 +3,7 @@ conky.config = {
 -- 2017/10/25
 -- this is for conky version 1.1
 -- converted by me using lua convert tool
--- 
+--
 --                               conkyrc_orange
 
 --  author  : SLK

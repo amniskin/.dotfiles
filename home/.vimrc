@@ -1,7 +1,3 @@
-" Author            : Aaron Niskin <aaron@niskin.org>
-" Date              : 2019-01-20
-" Last Modified Date: 2019-01-20
-" Last Modified By  : Aaron Niskin <aaron@niskin.org>
 " required by vundle {{{
 "
 set nocompatible
@@ -12,7 +8,6 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 "
 " "}}}
-
 " Plugins {{{
 " " GnuPG Encription
 Plugin 'jamessan/vim-gnupg'
@@ -37,7 +32,8 @@ Plugin 'mattn/gist-vim'
 Plugin 'ervandew/supertab'
 "
 " " editing
-Plugin 'alpertuna/vim-header'
+" Plugin 'alpertuna/vim-header'
+Plugin 'jpalardy/vim-slime'
 "Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 "
@@ -87,14 +83,12 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'flazz/vim-colorschemes'
 "
 " " }}}
-
 " required by vundle {{{
 "
 call vundle#end()
 filetype plugin indent on
 "
 " " }}}
-
 " color scheme{{{
 set t_Co=256
 syntax on "enable
@@ -102,7 +96,9 @@ syntax on "enable
 colorscheme distinguished
 " colorscheme github
 " " }}}
-
+" Sliming {{{
+let g:slime_target = "tmux"
+" }}}
 " linting {{{
 "" let g:syntastic_<filetype>_checkers = ['<checker-name>']
 let g:syntastic_python_checkers = ['python', 'pylint']
@@ -118,15 +114,13 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_w  = 1
 " }}}
-
 " {{{ vim-header
-let g:header_field_author = 'Aaron Niskin'
-let g:header_field_author_email = 'aaron@niskin.org'
-let g:header_field_filename = 0
-let g:header_field_timestamp_format = '%Y-%m-%d'
-let g:header_exclude_file_types = ['rst']
+" let g:header_field_author = 'Aaron Niskin'
+" let g:header_field_author_email = 'aaron@niskin.org'
+" let g:header_field_filename = 0
+" let g:header_field_timestamp_format = '%Y-%m-%d'
+" let g:header_exclude_file_types = ['rst']
 " }}}
-
 " Airline{{{
 let g:airline_theme = g:colors_name
 "let g:airline_powerline_fonts = 1                    " Fancy symbols
@@ -138,7 +132,6 @@ let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
 let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
 set laststatus=2 				     " To have airline show allways
 " " }}}
-
 " Indent Guides{{{
 augroup indentguides
 	autocmd!
@@ -149,7 +142,6 @@ augroup indentguides
 	let g:indent_guides_start_level = 1                  " start level
 augroup END
 " " }}}
-
 " General options{{{
 augroup vanilla
 	autocmd!
@@ -165,7 +157,6 @@ augroup vanilla
 	autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 "}}}
-
 " FileType specific things.  {{{
 augroup fileAssociations
 	autocmd!

@@ -1,3 +1,7 @@
+!! Author            : Aaron Niskin <aaron@niskin.org>
+!! Date              : 2019-01-26
+!! Last Modified Date: 2019-01-26
+!! Last Modified By  : Aaron Niskin <aaron@niskin.org>
 Xft.dpi:       96
 Xft.antialias: true
 Xft.hinting:   true
@@ -10,7 +14,8 @@ XTerm*background:        #222D31
 XTerm*foreground:        #d8d8d8
 XTerm*pointerColor:      #1ABB9B
 XTerm*faceName:          Fixed
-XTerm*faceSize:          11
+XTerm*faceSize:          6
+!! 11
 XTerm*reverseVideo:      on
 XTerm*selectToClipboard: true
 

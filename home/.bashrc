@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author            : Aaron Niskin <aaron@niskin.org>
 # Date              : 2019-01-20
-# Last Modified Date: 2019-01-20
+# Last Modified Date: 2019-01-26
 # Last Modified By  : Aaron Niskin <aaron@niskin.org>
 # export QT_SELECT=4
 
@@ -47,8 +47,6 @@ shopt -s expand_aliases
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-
 # PS1 {{{
 
 # force_color_prompt=yes
@@ -102,8 +100,6 @@ unset color_prompt force_color_prompt psTxt
 
 ############ }}}
 
-
-
 if [ -f ~/.dotfiles/home/.bash_aliases ]; then
 	. ~/.dotfiles/home/.bash_aliases
 fi
@@ -132,7 +128,6 @@ unset compDir
 export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
 ### }}}
-
 # changing window titles {{{
 # Change the window title of X terminals
 ##  case ${TERM} in
@@ -172,16 +167,8 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 ##  fi
 ##
 ##  unset use_color safe_term match_lhs sh
-##
-
-
-
 ############ }}}
-
-
-
 ### path  {{{
 export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
 export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
-
 ### }}}
