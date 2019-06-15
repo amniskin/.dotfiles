@@ -49,8 +49,8 @@ cp /etc/apt/sources.list $tmpDir/
 ## echo "adding canonical parter repos..."
 ## cat /etc/apt/sources.list | sed -r 's/\#\ deb\ (.*)partner/deb\ \1partner/' > /etc/apt/sources.list
 
-## apt-get packages... Left out: "mongodb" "postgresql" 
-packages=("vim" "git" "i3" "xbacklight" "python-pip" "curl" "ruby" "ruby-dev" "jekyll" "tree" "chromium-browser" "firefox" "gnupg" "vlc" "compton" "adobe-flashplugin" "texlive-full" "ninvaders" "gcc" "g++" "feh" "gimp" "xclip" "transmission" "r-base" "pandoc" "openjdk-8-jdk" "openjdk-8-jre" "default-jre" "default-jdk" "openjdk-9-jdk" "tmux")
+## apt-get packages... Left out: "mongodb" "postgresql" texlive-full
+packages=(vim git i3 xbacklight python3-dev python3-pip python3-virtualenv curl ruby ruby-dev jekyll tree chromium-browser firefox gnupg vlc compton adobe-flashplugin ninvaders gcc g++ feh gimp xclip transmission r-base pandoc default-jre default-jdk tmux suckless-tools)
 
 for package in "${packages[@]}"
 do
@@ -68,10 +68,8 @@ git config --global user.email "amniskin@gmail.com"&&
 git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
-git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
+# git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
 ## linking my dotfiles
-files=(".vimrc" ".bashrc" ".bash_aliases" ".mrjob.conf" ".i3/config"
-".i3/i3status.conf")
 
 for from in $(find $HOME/.dotfiles/home); do
 	to=$(echo $from | sed 's/\/.dotfiles\/home//')
@@ -82,6 +80,12 @@ for from in $(find $HOME/.dotfiles/home); do
 		fi
 		echo "Linking $from $to"
 		ln -s $from $to || echo "error creating symbolic link from $from to $to" >> $logFile
+  elif [ -d $from ]; then
+    if [ -d $to ]; then
+      echo "Skipping $from to $to because $to already exists" >> $logFile
+    else
+      mkdir -p $to
+    fi
 	else
 		echo "skipping $from"
 	fi
@@ -102,51 +106,10 @@ echo "================================================="
 echo "================================================="
 
 ##  pip packages
-packages=("jupyter" "jupyter_contrib_nbextensions" "py3status" "numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim" "beautifulsoup4" "scipy" "pymongo" "mrjob" "beautifulsoup4" "powerline-status" "cython")
-
-sudo pip install --upgrade pip &&
-	for package in "${packages[@]}"
-	do
-		pip install --user $package ||
-			echo "pip install error ==> $package\n" >> $logFile
-	done
+sudo python3 -m pip install --force-reinstall pip &&
+  pip install -r $HOME/.dotfiles/pip_packages.txt
 
 jupyter contrib nbextension install --user
-
-pip2 install --user ipykernel &&
-	python2 -m ipykernel install --user
-
-##  echo "================================================="
-##  echo "================================================="
-##  echo "==================   Anaconda   ================="
-##  echo "================================================="
-##  echo "================================================="
-##  
-##  echo "installing anaconda..."
-##  CONTREPO=https://repo.continuum.io/archive/
-##  # Stepwise filtering of the html at $CONTREPO
-##  # Get the topmost line that matches our requirements, extract the file name.
-##  ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linux" | grep "86_64" | head -n 1 | cut -d \" -f 2)
-##  wget -O $tmpDir/anaconda.sh $CONTREPO$ANACONDAURL
-##  bash $tmpDir/anaconda.sh
-##  
-##  echo "================================================="
-##  echo "================================================="
-##  echo "===============  Conda Packages  ================"
-##  echo "================================================="
-##  echo "================================================="
-##  
-##  ## conda packages
-##  packages=("numpy" "pandas" "matplotlib" "scikit-learn" "statsmodels"
-##  "pymongo" "pandas-datareader" "yahoo-finance" "wikipedia" "gensim"
-##  "mrjob" "beautifulsoup4")
-##  
-##  for package in "${packages[@]}"
-##  do
-##  	conda install $package ||
-##  		conda install $package -c conda-forge ||
-##  		echo "conda install error ==> $package\n" >> $tmpDir/errors.txt
-##  done
 
 echo "================================================="
 echo "================================================="
