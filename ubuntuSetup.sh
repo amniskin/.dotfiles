@@ -25,19 +25,6 @@ else
 	echo "----------------------------------------"
 fi
 
-echo "Making directories..."
-
-oldDir="$HOME/old"
-dirs=("$oldDir" "$HOME/.r" "$HOME/.config" "$HOME/.config/r" "$HOME/.vim-tmp")
-for dir in "${dirs[@]}"; do
-	if [ ! -d $dir ]; then
-		mkdir $dir && echo "Made directory at $dir" >> $logFile
-	else
-		echo "$dir already exists. Using old directory" >> $logFile
-	fi
-done
-
-
 echo Setting up ssh keys...
 ssh-keygen -t rsa
 
@@ -69,32 +56,7 @@ git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
 # git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
-## linking my dotfiles
-
-for from in $(find $HOME/.dotfiles/home); do
-	to=$(echo $from | sed 's/\/.dotfiles\/home//')
-	if [ -f $from ]; then
-		if [ -f $to ]; then
-			tmp=$toDir/$(echo $to | tr "/" "+")
-			mv $to $oldDir/$tmp && echo "moved $to to $oldDir/$tmp" >> $logFile
-		fi
-		echo "Linking $from $to"
-		ln -s $from $to || echo "error creating symbolic link from $from to $to" >> $logFile
-  elif [ -d $from ]; then
-    if [ -d $to ]; then
-      echo "Skipping $from to $to because $to already exists" >> $logFile
-    else
-      mkdir -p $to
-    fi
-	else
-		echo "skipping $from"
-	fi
-done
-
-echo "installing VimVundle... "
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-echo "installing Vim Pluggins... "
-vim +PluginInstall +qall
+bash $HOME/.dotfiles/link_files.bash >> $logFile
 
 echo "===================   Boot   ===================="
 sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
@@ -136,5 +98,16 @@ do
 	R -e "install.packages(\"$package\", lib=\"$HOME/.r\")" ||
 		echo "R install error ==> $package" >> $logFile
 done
+
+echo "installing VimVundle... "
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+echo "installing Vim Pluggins... "
+vim +PluginInstall +qall
+
+mkdir -p $HOME/.misc_things/ &&
+	cd $HOME/.misc_things &&
+	git clone git@github.com:Boruch-Baum/morc_menu.git &&
+	cd morc_menu &&
+	sudo make install
 
 echo "Y'all have a good day now, y'hear?"

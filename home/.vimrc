@@ -72,8 +72,9 @@ Plugin 'tpope/vim-fireplace'
 "Plugin 'kchmck/vim-coffee-script'
 "
 " " editor extras
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+"" Plugin 'powerline/powerline'
+" Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'guns/xterm-color-table.vim'
 "
@@ -121,17 +122,23 @@ let g:syntastic_check_on_w  = 1
 " let g:header_field_timestamp_format = '%Y-%m-%d'
 " let g:header_exclude_file_types = ['rst']
 " }}}
-" Airline{{{
-let g:airline_theme = g:colors_name
-"let g:airline_powerline_fonts = 1                    " Fancy symbols
-let g:airline#extensions#tabline#enabled = 1         " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t'     " Show just the filename
-let g:airline#extensions#tabline#tab_nr_type = 1     " Show buffer #, not # of splits
-let g:airline#extensions#tabline#show_tab_nr = 1     " Show buffer # in tabline
-let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
-let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
-set laststatus=2 				     " To have airline show allways
-" " }}}
+" Powerline {{{
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
+set laststatus=2
+" }}}
+" " Airline{{{
+" let g:airline_theme = g:colors_name
+" "let g:airline_powerline_fonts = 1                    " Fancy symbols
+" let g:airline#extensions#tabline#enabled = 1         " Enable the list of buffers
+" let g:airline#extensions#tabline#fnamemod = ':t'     " Show just the filename
+" let g:airline#extensions#tabline#tab_nr_type = 1     " Show buffer #, not # of splits
+" let g:airline#extensions#tabline#show_tab_nr = 1     " Show buffer # in tabline
+" let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
+" let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
+" set laststatus=2 				     " To have airline show allways
+" " " }}}
 " Indent Guides{{{
 augroup indentguides
 	autocmd!
