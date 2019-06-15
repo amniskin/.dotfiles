@@ -79,7 +79,7 @@ bindsym $mod+Shift+r restart
 
 # apps {{{
 # start a terminal
-bindsym $mod+Return exec terminal -e "tmux -f $HOME/.dotfiles/tmux.conf"
+bindsym $mod+Return exec terminal -e "tmux"
 bindsym $mod+Ctrl+Return exec terminal
 
 # start program launcher
