@@ -172,3 +172,5 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
 export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
 ### }}}
+
+# . $HOME/.local/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh
