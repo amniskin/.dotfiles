@@ -93,13 +93,13 @@ _last_status_prompt() {
 }
 
 sep="\e[0m\e[1m|\e[0m"
-PS1="\$(_last_status_prompt) $sep \[\e[01;36m\]\w\[\e[0m\] $sep \e[1;33mjobs:\j \e[0m"
+PS1="\$(_last_status_prompt) $sep \[\e[01;34m\]\w\[\e[0m\] $sep \e[36mjobs:\j \e[0m"
 
 if [ $(which zerkenv) ]; then
 	_zerkenv_prompt() {
-		local out=":"
+		local out=""
 		for e in $(zerkenv); do
-			out="$out\e[93m$e\e[0m:"
+			out="$out[\e[1;35m$e\e[0m]"
 		done
 		echo -e $out
 	}

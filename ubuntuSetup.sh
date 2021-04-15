@@ -58,8 +58,15 @@ mkdir -p $HOME/.misc_things/ &&
 	git clone git@github.com:Boruch-Baum/morc_menu.git &&
 	cd morc_menu &&
 	sudo make install
+cd $HOME/.misc_things/ &&
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&
+	unzip awscliv2.zip &&
+	sudo ./aws/install
+cd $HOME
 
 curl -fsSL https://raw.githubusercontent.com/adzerk-oss/zerkenv/master/zerkenv > ~/.local/bin/zerkenv
 chmod 755 ~/.local/bin/zerkenv
+
+sudo bash -c "cd /usr/local && wget -O - https://github.com/micha/json-table/raw/master/jt.tar.gz | tar xzvf -"
 
 echo "Y'all have a good day now, y'hear?"
