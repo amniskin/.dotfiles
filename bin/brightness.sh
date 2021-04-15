@@ -84,17 +84,17 @@ then
 	then
 		new_pct=$3
 		setter $new_pct
-		echo "Set brightness to $new_pct"
+		echo "NULL ==> $new_pct%"
 	elif [ $direction == "up" ]
 	then
 		new_pct=$(upper $current_pct)
 		setter $new_pct
-		echo "Set brightness from $current_pct ==> $new_pct"
+		echo "$current_pct% ==> $new_pct%"
 	elif [ $direction == "down" ]
 	then
 		new_pct=$(downer $current_pct)
 		setter $new_pct
-		echo "Set brightness from $current_pct ==> $new_pct"
+		echo "$current_pct% ==> $new_pct%"
 	else
 		echo Unknown parameter $direction. Should be either \"VAL\", \"UP\", or \"DOWN\".
 	fi

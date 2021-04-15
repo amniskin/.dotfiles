@@ -27,7 +27,7 @@
 
 *barbg:                 transparent
 *barstatus:             transparent
-*background:            S_base1
+*background:            S_base03
 *foreground:            S_base01
 *fadeColor:             black
 *opaquebg:              S_base03
@@ -80,3 +80,7 @@ ssh-askpass.Indicator.foreground: #839496
 !! white dark/light
 *color7:                ultra_light_cyan
 *color15:               ultra_light_cyan
+
+
+Emacs*Background: S_base02
+Emacs*Foreground: S_base01

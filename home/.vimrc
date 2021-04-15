@@ -11,6 +11,12 @@ Plugin 'gmarik/Vundle.vim'
 " Plugins {{{
 " " GnuPG Encription
 Plugin 'jamessan/vim-gnupg'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+
+" terminal mux
+Plugin 'kassio/neoterm'
 "
 " utility
 Plugin 'mattn/webapi-vim'
@@ -40,7 +46,18 @@ Plugin 'tpope/vim-surround'
 " " helpers
 Plugin 'tpope/vim-speeddating'
 Plugin 'jceb/vim-orgmode'
+Plugin 'mattn/calendar-vim'
 " Plugin 'vim-scripts/vim-orgmode'
+
+" required by orgmode
+Plugin 'vim-scripts/utl.vim'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'vim-scripts/repeat.vim'
+" Plugin 'vim-scripts/tagbar.vim'
+Plugin 'vim-scripts/speeddating.vim'
+Plugin 'inkarkat/vim-SyntaxRange'
+Plugin 'majutsushi/tagbar'
+Plugin 'chrisbra/NrrwRgn'
 "
 " " html
 "Plugin 'mattn/emmet-vim'
@@ -50,6 +67,8 @@ Plugin 'jalvesaq/nvim-r'
 
 " " Rust
 Plugin 'rust-lang/rust.vim'
+
+Plugin 'sillybun/vim-repl'
 
 " " Linters
 " Plugin 'vim-scripts/pylint.vim'
@@ -65,6 +84,7 @@ Plugin 'guns/vim-clojure-highlight'
 " " Clojure repl
 Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-salve'
+Plugin 'tpope/vim-classpath'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fireplace'
 "
@@ -73,8 +93,8 @@ Plugin 'tpope/vim-fireplace'
 "
 " " editor extras
 "" Plugin 'powerline/powerline'
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'guns/xterm-color-table.vim'
 "
@@ -90,6 +110,33 @@ call vundle#end()
 filetype plugin indent on
 "
 " " }}}
+" neoterm {{{
+" terminal mux
+let g:neoterm_autoscroll = 1
+let g:neoterm_keep_term_open = 0
+let g:neoterm_auto_repl_cmd = 0
+
+
+nmap <silent> <leader>pcb :vertical botright Tnew<CR>
+nmap <silent> <leader>pcl :vertical botright T lumo<CR>
+nmap <silent> <leader>pcc :vertical botright T clj<CR>
+nmap <silent> <leader>pd :TcloseAll<CR>
+nmap <silent> <leader>pR :TREPLSendFile<CR>
+" nmap <silent> <leader>pf vaf:TREPLSendSelection<CR>
+" nmap <silent> <leader>pe vie:TREPLSendSelection<CR>
+xmap <silent> <leader>pp :TREPLSendSelection<CR>
+" }}}
+" vim-orgmode {{{
+let g:org_indent = 0
+let g:org_todo_keywords = [['TODO(t)', 'PROCESSING(p)', '|', 'DONE(d)'], ['|', 'CANCELED(c)']]
+let g:org_todo_keyword_faces = [['IN-PROGRESS', 'cyan'],
+			      \ ['CANCELED', [':foreground red', ':background black', ':weight bold',
+			      \   ':slant italic', ':decoration underline']]]
+
+let g:org_agenda_files = ['~/code/*/*/*.org', '~/index.org']
+" }}}
+" vim-repl {{{
+" }}}
 " color scheme{{{
 set t_Co=256
 syntax on "enable
@@ -102,7 +149,7 @@ let g:slime_target = "tmux"
 " }}}
 " linting {{{
 "" let g:syntastic_<filetype>_checkers = ['<checker-name>']
-let g:syntastic_python_checkers = ['python', 'pylint']
+let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_clojure_checkers = ['syntastic-joker']
 
 set statusline+=%#warningmsg#
@@ -123,22 +170,25 @@ let g:syntastic_check_on_w  = 1
 " let g:header_exclude_file_types = ['rst']
 " }}}
 " Powerline {{{
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
-set laststatus=2
+" python3 from powerline.vim import setup as powerline_setup
+" python3 powerline_setup()
+" python3 del powerline_setup
+" set laststatus=2
 " }}}
-" " Airline{{{
-" let g:airline_theme = g:colors_name
-" "let g:airline_powerline_fonts = 1                    " Fancy symbols
-" let g:airline#extensions#tabline#enabled = 1         " Enable the list of buffers
-" let g:airline#extensions#tabline#fnamemod = ':t'     " Show just the filename
-" let g:airline#extensions#tabline#tab_nr_type = 1     " Show buffer #, not # of splits
-" let g:airline#extensions#tabline#show_tab_nr = 1     " Show buffer # in tabline
-" let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
-" let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
-" set laststatus=2 				     " To have airline show allways
-" " " }}}
+" NerdTree {{{
+let NERDTreeShowHidden=1
+" }}}
+" Airline{{{
+let g:airline_theme = g:colors_name
+" let g:airline_powerline_fonts = 1                    " Fancy symbols
+let g:airline#extensions#tabline#enabled = 1         " Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t'     " Show just the filename
+let g:airline#extensions#tabline#tab_nr_type = 1     " Show buffer #, not # of splits
+let g:airline#extensions#tabline#show_tab_nr = 1     " Show buffer # in tabline
+let g:airline#extensions#tabline#show_tab_type = 1   " Show the tab type
+let g:airline#extensions#tabline#buffer_idx_mode = 1 " Show buffer index
+set laststatus=2 				     " To have airline show allways
+" " }}}
 " Indent Guides{{{
 augroup indentguides
 	autocmd!
@@ -154,14 +204,21 @@ augroup vanilla
 	autocmd!
 	autocmd BufRead,BufNewFile * let mapleader = "\\"
 	" Standard things
-	autocmd BufRead,BufNewFile * set wrap sw=2 ts=2 sts=2 noexpandtab linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp
+	autocmd BufRead,BufNewFile * set wrap linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp ts=4 sts=4 sw=4
 	" Keybindings
+	autocmd BufRead,BufNewFile * noremap <leader>r :REPLToggle<CR>
+	autocmd BufRead,BufNewFile * noremap <leader>n :NERDTreeToggle<CR>
 	autocmd BufRead,BufNewFile * noremap <leader>ev :vsplit $MYVIMRC<CR>
 	autocmd BufRead,BufNewFile * nnoremap <C-J> a<CR><Esc>k$
 	" To load .vimrc file from local directory
 	autocmd BufRead,BufNewFile * set exrc
 	autocmd BufRead,BufNewFile * set secure
 	autocmd BufWritePre * :%s/\s\+$//e
+  " open NERDTree on vim startup
+  " autocmd vimenter * NERDTree
+  autocmd VimEnter * wincmd w
+  " close vim if only NERDTree left
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 "}}}
 " FileType specific things.  {{{
@@ -171,25 +228,29 @@ augroup fileAssociations
 	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
 	autocmd BufRead,BufNewFile *.md             set filetype=markdown
 	autocmd BufRead,BufNewFile *.org            set filetype=org
-	autocmd BufRead,BufNewFile *.yaml           set filetype=yaml
+	autocmd BufRead,BufNewFile *.yaml,*.yml     set filetype=yaml
 	autocmd BufRead,BufNewFile *.py             set filetype=python
 	autocmd BufRead,BufNewFile *.rs             set filetype=rust
 	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
 	autocmd BufRead,BufNewFile *.conf           set filetype=conf
 	" FileType specific setlocals
-	autocmd Filetype org        setlocal tw=72 expandtab
+	autocmd Filetype org        setlocal tw=72 wrap sw=2 ts=2 sts=2 noexpandtab
 	autocmd FileType gitcommit  setlocal tw=72
 	autocmd FileType tex        setlocal sw=4 ts=4 sts=4 spell
 	autocmd FileType markdown   setlocal sw=4 ts=4 sts=4 spell
 	autocmd FileType c          setlocal sw=4 ts=4 sts=4
 	autocmd FileType cpp        setlocal sw=4 ts=4 sts=4
 	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
-	autocmd FileType javascript setlocal sw=4 ts=4 sts=4
+	autocmd FileType javascript setlocal sw=2 ts=2 sts=2 expandtab
+	autocmd FileType java       setlocal sw=4 ts=4 sts=4 noexpandtab
 	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai expandtab
-	" autocmd FileType python     set omnifunc=pythoncomplete#Complete
+	autocmd FileType python     set omnifunc=pythoncomplete#Complete
 	autocmd FileType rust       setlocal sw=4 ts=4 sts=4 ai expandtab
-	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2
+	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2 expandtab
+	autocmd FileType sh         setlocal sw=4 ts=4 sts=4 noexpandtab
+	autocmd FileType json       setlocal sw=4 ts=4 sts=4 noexpandtab
+
 	" FileType specific keybindings
 	autocmd FileType c++ nnoremap <C-P> :w <CR> :! g++ -std=c++11 %
 	autocmd FileType tex nnoremap <C-P> :w <CR> :! pdflatex % <CR> :! latexmk -c <CR> <CR>

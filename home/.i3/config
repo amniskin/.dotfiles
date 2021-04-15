@@ -67,13 +67,13 @@ bindsym $mod+Shift+r restart
 ##  bindsym XF86AudioMute exec pulseaudio-ctl mute
 
 ## # Pulse Audio controls
-## bindsym XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh capped up
-## bindsym XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh capped down
+bindsym XF86AudioRaiseVolume exec --no-startup-id "notify-send -c device -u low \\"$(~/.dotfiles/bin/volume.sh capped up)\\" Volume"
+bindsym XF86AudioLowerVolume exec --no-startup-id "notify-send -c device -u low \\"$(~/.dotfiles/bin/volume.sh capped down)\\" Volume"
 ## # Past 100 %
-## bindsym Shift+XF86AudioRaiseVolume exec ~/.dotfiles/bin/volume.sh uncapped up
-## bindsym Shift+XF86AudioLowerVolume exec ~/.dotfiles/bin/volume.sh uncapped down
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id "notify-send -c device -u low \\"$(~/.dotfiles/bin/volume.sh uncapped up)\\" Volume"
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id "notify-send -c device -u low \\"$(~/.dotfiles/bin/volume.sh uncapped down)\\" Volume"
 ## # Mute sound
-## bindsym XF86AudioMute exec ~/.dotfiles/bin/volume.sh mute
+bindsym XF86AudioMute exec --no-startup-id ~/.dotfiles/bin/volume.sh mute
 ##
 ################## }}}
 
@@ -91,30 +91,32 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+bindsym $mod+Ctrl+m exec i3-sensible-terminal -e 'alsamixer'
 # bindsym $mod+Ctrl+m exec pavucontrol
 
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
-bindsym Ctrl+XF86MonBrightnessUp exec "sh ~/.dotfiles/bin/brightness.sh SET UP; notify-send 'brightness up'"
-bindsym Ctrl+XF86MonBrightnessDown exec "sh ~/.dotfiles/bin/brightness.sh SET DOWN; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh SET UP)\\" Brightness"
+bindsym XF86MonBrightnessDown exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh SET DOWN)\\" Brightness"
 
 # Start Applications
 bindsym $mod+Ctrl+space exec kcalc
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
+bindsym $mod+Ctrl+b exec i3-sensible-terminal -e 'bmenu'
 bindsym $mod+c exec chromium-browser # palemoon
 bindsym $mod+n exec nautilus  # pcmanfm
 # bindsym $mod+F3 exec ranger
 # bindsym $mod+Shift+F3 exec gksu pcmanfm
-bindsym $mod+F5 exec terminal -e 'mocp'
+bindsym $mod+F5 exec i3-sensible-terminal -e 'mocp'
 ## bindsym $mod+t exec --no-startup-id pkill compton
 ## bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 ## bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 #
 # Screenshots
-bindsym Print exec --no-startup-id i3-scrot
-bindsym Shift+Print exec --no-startup-id i3-scrot -w
+# bindsym Print exec --no-startup-id i3-scrot
+bindsym Print exec --no-startup-id gnome-screenshot
+bindsym Shift+Print exec --no-startup-id gnome-screenshot -w
+# bindsym Shift+Print exec --no-startup-id i3-scrot -w
 bindsym Ctrl+Print exec --no-startup-id i3-scrot -s
 
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
@@ -235,7 +237,7 @@ set $key7 7
 set $key8 8
 set $key9 9
 set $key10 0
-set $key11 XF86AudioMute
+##  set $key11 XF86AudioMute
 set $key12 XF86AudioLowerVolume
 
 # switch to workspace
@@ -314,13 +316,13 @@ mode "resize" {
 bindsym $mod+Shift+e mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-	bindsym l exec --no-startup-id i3exit lock, mode "default"
-	bindsym s exec --no-startup-id i3exit suspend, mode "default"
-	bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-	bindsym e exec --no-startup-id i3exit logout, mode "default"
-	bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-	bindsym r exec --no-startup-id i3exit reboot, mode "default"
-	bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+	bindsym l exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh lock, mode "default"
+	bindsym s exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh suspend, mode "default"
+	bindsym u exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh switch_user, mode "default"
+	bindsym e exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh logout, mode "default"
+	bindsym h exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh hibernate, mode "default"
+	bindsym r exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh reboot, mode "default"
+	bindsym Shift+s exec --no-startup-id bash $HOME/.dotfiles/bin/i3exit.sh shutdown, mode "default"
 	# exit system mode: "Enter" or "Escape"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -389,6 +391,8 @@ exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
+exec --no-startup-id feh --bg-scale /home/amniskin/Pictures/black_white_background_theTree.png
+
 ################ }}}
 
 # colors {{{
@@ -425,10 +429,10 @@ set_from_resource $term_color15    color15
 
 # Color palette used for i3
 # Variables are set based on the documentation:
-# https://i3wm.org/dovs/userguide.html#variables
+# https://i3wm.org/docs/userguide.html#variables
 # Changing the value of one of the variables will
 # effect all the areas with the same color.
-set $i3_background      #2B2C2B
+set $i3_background      #353836
 set $i3_text            #F9FAF9
 set $i3_separator       #454947
 set $i3_color1          #f9faf9
@@ -462,52 +466,52 @@ client.background       $i3_background
 
 # i3bar {{{
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-##  bar {
-##  	# status_command i3status
-##  	status_command py3status -c ~/.dotfiles/home/.i3/i3status.conf
-##  	position top
-##  	## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-##  	#	tray_output primary
-##  	#	tray_output eDP1
-##  	bindsym button4 nop
-##  	bindsym button5 nop
-##  	font xft:Noto Sans 7
-##  	strip_workspace_numbers yes
-##  	colors {
-##  		# background $transparent
-##  		background $term_background
-##  		statusline $i3_text
-##  		separator  $i3_separator
-##  		#                   border      backgr.     text
-##  		focused_workspace   $i3_color2  $i3_color4  $i3_text
-##  		active_workspace    $i3_color2  $i3_color3  $i3_color5
-##  		inactive_workspace  $i3_color2  $i3_color3  $i3_color6
-##  		urgent_workspace    $i3_color4  $i3_color5  $i3_color7
-##  	}
-##  }
 bar {
-    status_command python3 $HOME/.local/lib/python3.6/site-packages/powerline/bindings/i3/powerline-i3.py
-    font pango:Arial 8
-    position top
-    colors {
-      #                   border      backgr.     text
-      focused_workspace   $i3_color2  $i3_color4  $i3_text
-      active_workspace    $i3_color2  $i3_color3  $i3_color5
-      inactive_workspace  $i3_color2  $i3_color3  $i3_color6
-      urgent_workspace    $i3_color4  $i3_color5  $i3_color7
-    }
+	# status_command i3status
+	status_command py3status -c ~/.dotfiles/home/.i3/i3status.conf
+	position top
+	## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+	#	tray_output primary
+	#	tray_output eDP1
+	bindsym button4 nop
+	bindsym button5 nop
+	font xft:Noto Sans 7
+	strip_workspace_numbers yes
+	colors {
+		# background $transparent
+		background $i3_background
+		statusline $i3_text
+		separator  $i3_separator
+		#                   border      backgr.     text
+		focused_workspace   $i3_color2  $i3_color4  $i3_text
+		active_workspace    $i3_color2  $i3_color3  $i3_color5
+		inactive_workspace  $i3_color2  $i3_color3  $i3_color6
+		urgent_workspace    $i3_color4  $i3_color5  $i3_color7
+	}
 }
+##  bar {
+##      status_command python3 $HOME/.local/lib/python3.6/site-packages/powerline/bindings/i3/powerline-i3.py
+##      font pango:Arial 8
+##      position top
+##      colors {
+##        #                   border      backgr.     text
+##        focused_workspace   $i3_color2  $i3_color4  $i3_text
+##        active_workspace    $i3_color2  $i3_color3  $i3_color5
+##        inactive_workspace  $i3_color2  $i3_color3  $i3_color6
+##        urgent_workspace    $i3_color4  $i3_color5  $i3_color7
+##      }
+##  }
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
 
 ######################### }}}
 
-##  # settings for i3-gaps {{{
-##
-##  # Set inner/outer gaps
-##  gaps inner 2
-##  gaps outer -4
+##  ##  # settings for i3-gaps {{{
+##  ##
+##  ##  # Set inner/outer gaps
+##  ##  gaps inner 2
+##  ##  gaps outer -4
 ##
 ##  # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 ##  # gaps inner|outer current|all set|plus|minus <px>

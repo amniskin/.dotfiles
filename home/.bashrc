@@ -1,22 +1,13 @@
 #!/bin/bash
-# Author            : Aaron Niskin <aaron@niskin.org>
-# Date              : 2019-01-20
-# Last Modified Date: 2019-01-26
-# Last Modified By  : Aaron Niskin <aaron@niskin.org>
+
+set -o vi
+
 # export QT_SELECT=4
 
-##  # Enable history appending instead of overwriting.  #139609
-##  shopt -s histappend
-
-# better yaourt colors
-export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-
 # fix "xdg-open fork-bomb" export your preferred browser from here
-export BROWSER=/usr/bin/chromium
+export BROWSER=/usr/bin/chromium-browser
 export EDITOR=vim
 export TERM="xterm-256color"
-# export COLORTERM="rxvt-256color"
-
 
 # If not running interactively, don't do anything
 case $- in
@@ -27,7 +18,7 @@ esac
 # Don't know what it does yet {{{
 ##  xhost +local:root > /dev/null 2>&1
 
-##  complete -cf sudo
+complete -cf sudo
 #################}}}
 
 # bash history {{{
@@ -35,7 +26,7 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
-shopt -s histappend
+# shopt -s histappend
 shopt -s checkwinsize
 shopt -s expand_aliases
 
@@ -47,62 +38,79 @@ shopt -s expand_aliases
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+if [ -f $HOME/.bash_aliases ]; then
+	. $HOME/.bash_aliases
+fi
+
+# zerkenv {{{
+export ZERKENV_BUCKET=amniskin-zerkenv-modules  # set this to your s3 bucket name
+export ZERKENV_REGION=us-west-2
+export ZERKENV_DIR=$HOME/.config/zerkenv  # optional: default is ~/.zerkenv
+. <(zerkenv -i bash)
+
+zerkload() {
+  local OPTIND OPTARG o newshell=false
+  while getopts "hn" o; do
+    case "${o}" in
+      h) echo "USAGE: zerkload [-hn] <module>..." ; return ;;
+      n) newshell=true ;;
+      ?) return 1 ;;
+    esac
+  done
+  shift $((OPTIND-1))
+  [ $# -eq 0 ] && return
+  if $newshell; then
+    eval "( zerkload $* ; exec $BASH )"
+  else
+    . <(colors=true zerkenv -d "$@")
+  fi
+}
+_zerkenv() {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local ses=$(zerkenv -c "${COMP_WORDS[@]}")
+  COMPREPLY=( $(compgen -W "$ses" -- $cur) )
+}
+_zerkload() {
+  COMPREPLY=( $(compgen -W "-h -n $(zerkenv -l)" -- ${COMP_WORDS[COMP_CWORD]}) )
+}
+complete -F _zerkenv zerkenv
+complete -F _zerkload zerkload
+# }}}
+
 # PS1 {{{
-
-# force_color_prompt=yes
-
-PS1=""
-
-### git status in command prompt
-if [ -f ~/.dotfiles/bin/bashgit.sh ]; then
-	. ~/.dotfiles/bin/bashgit.sh
+if [ -f ~/.dotfiles/bin/_bashgit.sh ]; then
+	. ~/.dotfiles/bin/_bashgit.sh
 fi
 
-case "$TERM" in
-	xterm-color) color_prompt=yes;;
-	*256color*) color_prompt=yes;;
-	screen) color_prompt=yes;;
-esac
-
-if [ -n "$force_color_prompt" ]; then
-	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-		# We have color support; assume it's compliant with Ecma-48
-		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-		# a case would tend to support setf rather than setaf.)
-		color_prompt=yes
+_last_status_prompt() {
+	local ret_stat=$?
+	if [ $ret_stat = 0 ]; then
+		echo -e "\e[32m^_^\e[0m"
 	else
-		color_prompt=
+		echo -e "\e[31m\e[1mO_O $ret_stat\e[0m"
 	fi
+}
+
+sep="\e[0m\e[1m|\e[0m"
+PS1="\$(_last_status_prompt) $sep \[\e[01;36m\]\w\[\e[0m\] $sep \e[1;33mjobs:\j \e[0m"
+
+if [ $(which zerkenv) ]; then
+	_zerkenv_prompt() {
+		local out=":"
+		for e in $(zerkenv); do
+			out="$out\e[93m$e\e[0m:"
+		done
+		echo -e $out
+	}
+	PS1="$PS1 $sep \$(_zerkenv_prompt)"
 fi
+PS1="$PS1 $sep \$(_bashgit_prompt)"
+PS1="$PS1\n\\$ "
 
-psTxt="\W"
-
-if [ "$color_prompt" = yes ]; then
-	# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-	PS1="$PS1\[\e[01;34m\]$psTxt\[\e[0m\]"
-else
-	#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-	PS1="$PS1$psTxt"
-fi
-
-PS1="$PS1\$ "
-unset color_prompt force_color_prompt psTxt
-
-##  # If this is an xterm set the title to user@host:dir
-##  case "$TERM" in
-##  	xterm*|rxvt*)
-##  		# PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-##  		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-##  		;;
-##  	*)
-##  		;;
-##  esac
+unset sep
 
 ############ }}}
-
-if [ -f ~/.dotfiles/home/.bash_aliases ]; then
-	. ~/.dotfiles/home/.bash_aliases
-fi
 
 # bash completion {{{
 # enable programmable completion features (you don't need to enable
@@ -128,49 +136,7 @@ unset compDir
 export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
 ### }}}
-# changing window titles {{{
-# Change the window title of X terminals
-##  case ${TERM} in
-##  	xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-##  		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-##  		;;
-##  	screen*)
-##  		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-##  		;;
-##  esac
+use_color=true
 
-##  use_color=true
-##
-##  # Set colorful PS1 only on colorful terminals.
-##  # dircolors --print-database uses its own built-in database
-##  # instead of using /etc/DIR_COLORS.  Try to use the external file
-##  # first to take advantage of user additions.  Use internal bash
-##  # globbing instead of external grep binary.
-##  safe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
-##  match_lhs=""
-##  [[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
-##  [[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
-##  [[ -z ${match_lhs}    ]] \
-##  	&& type -P dircolors >/dev/null \
-##  	&& match_lhs=$(dircolors --print-database)
-##  [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
-##
-##  if ${use_color} ; then
-##  	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-##  	if type -P dircolors >/dev/null ; then
-##  		if [[ -f ~/.dir_colors ]] ; then
-##  			eval $(dircolors -b ~/.dir_colors)
-##  		elif [[ -f /etc/DIR_COLORS ]] ; then
-##  			eval $(dircolors -b /etc/DIR_COLORS)
-##  		fi
-##  	fi
-##  fi
-##
-##  unset use_color safe_term match_lhs sh
+unset use_color safe_term match_lhs sh
 ############ }}}
-### path  {{{
-export PATH="$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
-export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
-### }}}
-
-# . $HOME/.local/lib/python3.6/site-packages/powerline/bindings/bash/powerline.sh

@@ -47,7 +47,7 @@ _bashgit_update_ps1() {
 
     local IFS=$'\n' line state="$green" branch= rs= pattern noglob_orig=
     [ "${-/f}" = "$-" ] && set -f || noglob_orig=1
-    
+
     # User options
     local untracked=true untracked_param=normal showremote=true branchlimit=22
     for line in $(git config --get-regexp '^bashgit\.' 2>/dev/null); do
