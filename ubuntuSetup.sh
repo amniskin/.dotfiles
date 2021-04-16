@@ -53,11 +53,13 @@ git config --global user.name "Aaron Niskin"
 # git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
 bash $HOME/.dotfiles/link_files.bash >> $logFile
 
-echo "===================   Boot   ===================="
-sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
-mkdir $HOME/.boot $HOME/.m2
-
 if [ -z ${noinstall+x} ]; then
+    echo "installing interactive things..."
+    echo "installing interactive things..."
+    echo "installing interactive things..."
+    echo "installing interactive things..."
+    echo "installing interactive things..."
+    echo "installing interactive things..."
     sudo apt-get i3 xbacklight jekyll chromium-browser firefox compton feh transmission ruby ruby-dev gimp xclip
     cat <<EOT | bash
     cd $tmpdir &&
@@ -75,9 +77,7 @@ else
     echo "skipping interactive stuff..."
 fi
 
-echo "installing VimVundle... "
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-echo "installing Vim Pluggins... "
 vim +PluginInstall +qall
 
 cd $tmpdir &&
@@ -85,6 +85,9 @@ cd $tmpdir &&
     unzip awscliv2.zip &&
     sudo ./aws/install
 cd $HOME
+
+sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"
+mkdir $HOME/.boot $HOME/.m2
 
 if [ ! -d $HOME/.local/bin ]; then
     mkdir -p $HOME/.local/bin
