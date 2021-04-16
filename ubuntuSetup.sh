@@ -58,8 +58,6 @@ sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/
 mkdir $HOME/.boot $HOME/.m2
 
 if [ -z ${noinstall+x} ]; then
-    echo "skipping interactive stuff..."
-else
     sudo apt-get i3 xbacklight jekyll chromium-browser firefox compton feh transmission ruby ruby-dev gimp xclip
     cat <<EOT | bash
     cd $tmpdir &&
@@ -73,6 +71,8 @@ EOT
         gem install $package ||
             echo "gem install error ==> $package\n" >> $logFile
     done
+else
+    echo "skipping interactive stuff..."
 fi
 
 echo "installing VimVundle... "
