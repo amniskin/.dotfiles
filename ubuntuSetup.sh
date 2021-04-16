@@ -43,8 +43,8 @@ sudo apt-get update >> $logFile
 
 sudo apt-get install -y vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags >> $logFile
 
-git config --global user.email "amniskin@gmail.com"&&
-git config --global user.name "Aaron Niskin"
+git config --global user.email "amniskin@gmail.com" &&
+    git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
 # git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
