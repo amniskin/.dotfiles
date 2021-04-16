@@ -86,8 +86,11 @@ cd $tmpdir &&
     sudo ./aws/install
 cd $HOME
 
-curl -fsSL https://raw.githubusercontent.com/adzerk-oss/zerkenv/master/zerkenv > ~/.local/bin/zerkenv
-chmod 755 ~/.local/bin/zerkenv
+if [ ! -d $HOME/.local/bin ]; then
+    mkdir -p $HOME/.local/bin
+fi
+curl -fsSL https://raw.githubusercontent.com/adzerk-oss/zerkenv/master/zerkenv > $HOME/.local/bin/zerkenv
+chmod 755 $HOME/.local/bin/zerkenv
 
 sudo bash -c "cd /usr/local && wget -O - https://github.com/micha/json-table/raw/master/jt.tar.gz | tar xzvf -"
 
