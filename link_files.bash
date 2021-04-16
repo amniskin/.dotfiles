@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 ## linking my dotfiles
-oldDir="$HOME/old"
+# olddir="$HOME/old"
+basedir=$1
+olddir=$2
 
-for from in $(find $HOME/.dotfiles/home); do
+for from in $(find $basedir); do
 	to=$(echo $from | sed 's/\/.dotfiles\/home//')
 	if [ -f $from ]; then
 		if [ -f $to ]; then
 			tmp=$toDir/$(echo $to | tr "/" "+")
-			mv $to $oldDir/$tmp && echo "moved $to to $oldDir/$tmp"
+			mv $to $olddir/$tmp && echo "moved $to to $olddir/$tmp"
 		fi
 		echo "Linking $from $to"
 		ln -s $from $to || echo "error creating symbolic link from $from to $to"

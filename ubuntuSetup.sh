@@ -1,6 +1,7 @@
 #!/bin/bash
 
-tmpDir=~/Documents/installScriptTmp
+script_home=$(dirname $(realpath 0))
+tmpdir=$HOME/Documents/installScriptTmp
 usage() {
     local name=$(basename $0)
     cat <<EOT
@@ -37,30 +38,20 @@ fi
 errorFile=$tmpdir/errors.txt
 logFile="$tmpdir/log.txt"
 
-# echo Setting up ssh keys...
-# ssh-keygen -t rsa
-
-
 echo "updating repos..."
-sudo apt-get update
+sudo apt-get update >> $logFile
 
-sudo apt-get install vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags
+sudo apt-get install -y vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags >> $logFile
 
 git config --global user.email "amniskin@gmail.com"&&
 git config --global user.name "Aaron Niskin"
 
 ## cloning my dotfiles
 # git clone https://github.com/amniskin/.dotfiles.git ~/.dotfiles
-bash $HOME/.dotfiles/link_files.bash >> $logFile
+bash $script_home/link_files.bash $script_home/home $tmpdir >> $logFile
 
 if [ -z ${noinstall+x} ]; then
-    echo "installing interactive things..."
-    echo "installing interactive things..."
-    echo "installing interactive things..."
-    echo "installing interactive things..."
-    echo "installing interactive things..."
-    echo "installing interactive things..."
-    sudo apt-get i3 xbacklight jekyll chromium-browser firefox compton feh transmission ruby ruby-dev gimp xclip
+    sudo apt-get install -y i3 xbacklight jekyll chromium-browser firefox compton feh transmission ruby ruby-dev gimp xclip
     cat <<EOT | bash
     cd $tmpdir &&
         git clone git@github.com:Boruch-Baum/morc_menu.git &&
