@@ -68,6 +68,7 @@ else
     echo "skipping interactive stuff..."
 fi
 
+mkdir $HOME/.vim-tmp
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 
