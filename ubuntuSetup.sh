@@ -1,16 +1,41 @@
 #!/bin/bash
 
 tmpDir=~/Documents/installScriptTmp
-if [ ! -d $tmpDir ]
+usage() {
+    local name=$(basename $0)
+    cat <<EOT
+    Set up an ubuntu machine the way I like it...
+
+    usage: $name [-d TMP_HOME] [-n]
+
+    options:
+    -d TMP_HOME    Specify where the temporary home directory is. It's useful
+                   to not have this be a temporary directory in case something
+                   goes wrong. Default: $tmpdir
+    -n             Don't install things like i3wm, firefox, etc.
+EOT
+}
+
+while getopts "hd:n" opt; do
+    case ${opt} in
+        h ) usage && exit 0;;
+        d ) tmpdir="$OPTARG" ;;
+        n ) noinstall=1 ;;
+        \? ) usage && exit 1 ;;
+    esac
+done
+shift $((OPTIND -1))
+
+if [ ! -d $tmpdir ]
 then
-	echo "making script directory at $tmpDir"
-	mkdir $tmpDir
+    echo "making script directory at $tmpdir"
+    mkdir -p $tmpdir
 else
-	echo "$tmpDir already exists. Using old directory"
+    echo "$tmpdir already exists. Using old directory"
 fi
 
-errorFile=$tmpDir/errors.txt
-logFile="$tmpDir/log.txt"
+errorFile=$tmpdir/errors.txt
+logFile="$tmpdir/log.txt"
 
 # echo Setting up ssh keys...
 # ssh-keygen -t rsa
@@ -19,10 +44,13 @@ logFile="$tmpDir/log.txt"
 echo "updating repos..."
 sudo apt-get update
 
-sudo apt-get install vim git i3 xbacklight python3-dev python3-pip \
- python3-virtualenv curl ruby ruby-dev jekyll tree chromium-browser firefox \
- gnupg vlc compton ninvaders gcc g++ feh gimp xclip \
- transmission r-base pandoc default-jre default-jdk tmux suckless-tools
+sudo apt-get install vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags
+
+if [ -z ${noinstall+x} ]; then
+    echo "skipping interactive stuff..."
+else
+    sudo apt-get i3 xbacklight jekyll chromium-browser firefox compton feh transmission ruby ruby-dev gimp xclip
+fi
 
 git config --global user.email "amniskin@gmail.com"&&
 git config --global user.name "Aaron Niskin"
@@ -44,8 +72,8 @@ echo "================================================="
 packages=("bundler" "jekyll")
 for package in "${packages[@]}"
 do
-	gem install $package ||
-		echo "gem install error ==> $package\n" >> $logFile
+    gem install $package ||
+        echo "gem install error ==> $package\n" >> $logFile
 done
 
 echo "installing VimVundle... "
@@ -54,14 +82,14 @@ echo "installing Vim Pluggins... "
 vim +PluginInstall +qall
 
 mkdir -p $HOME/.misc_things/ &&
-	cd $HOME/.misc_things &&
-	git clone git@github.com:Boruch-Baum/morc_menu.git &&
-	cd morc_menu &&
-	sudo make install
+    cd $HOME/.misc_things &&
+    git clone git@github.com:Boruch-Baum/morc_menu.git &&
+    cd morc_menu &&
+    sudo make install
 cd $HOME/.misc_things/ &&
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&
-	unzip awscliv2.zip &&
-	sudo ./aws/install
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&
+    unzip awscliv2.zip &&
+    sudo ./aws/install
 cd $HOME
 
 curl -fsSL https://raw.githubusercontent.com/adzerk-oss/zerkenv/master/zerkenv > ~/.local/bin/zerkenv
