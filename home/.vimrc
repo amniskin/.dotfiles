@@ -62,8 +62,9 @@ Plugin 'chrisbra/NrrwRgn'
 " " html
 "Plugin 'mattn/emmet-vim'
 "
-" " R
-Plugin 'jalvesaq/nvim-r'
+" " Python
+Plugin 'vim-scripts/indentpython.vim'
+" Plugin 'jalvesaq/nvim-r'
 
 " " Rust
 Plugin 'rust-lang/rust.vim'
@@ -204,7 +205,7 @@ augroup vanilla
 	autocmd!
 	autocmd BufRead,BufNewFile * let mapleader = "\\"
 	" Standard things
-	autocmd BufRead,BufNewFile * set wrap linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp ts=4 sts=4 sw=4
+	autocmd BufRead,BufNewFile * set wrap linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp sw=2 ts=2 sts=2 expandtab
 	" Keybindings
 	autocmd BufRead,BufNewFile * noremap <leader>r :REPLToggle<CR>
 	autocmd BufRead,BufNewFile * noremap <leader>n :NERDTreeToggle<CR>
@@ -214,11 +215,11 @@ augroup vanilla
 	autocmd BufRead,BufNewFile * set exrc
 	autocmd BufRead,BufNewFile * set secure
 	autocmd BufWritePre * :%s/\s\+$//e
-  " open NERDTree on vim startup
-  " autocmd vimenter * NERDTree
-  autocmd VimEnter * wincmd w
-  " close vim if only NERDTree left
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+	" open NERDTree on vim startup
+	" autocmd vimenter * NERDTree
+	autocmd VimEnter * wincmd w
+	" close vim if only NERDTree left
+	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 "}}}
 " FileType specific things.  {{{
@@ -235,7 +236,7 @@ augroup fileAssociations
 	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
 	autocmd BufRead,BufNewFile *.conf           set filetype=conf
 	" FileType specific setlocals
-	autocmd Filetype org        setlocal tw=72 wrap sw=2 ts=2 sts=2 noexpandtab
+	autocmd Filetype org        setlocal tw=72 noexpandtab
 	autocmd FileType gitcommit  setlocal tw=72
 	autocmd FileType tex        setlocal sw=4 ts=4 sts=4 spell
 	autocmd FileType markdown   setlocal sw=4 ts=4 sts=4 spell

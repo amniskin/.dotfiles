@@ -5,7 +5,7 @@ set -o vi
 # export QT_SELECT=4
 
 # fix "xdg-open fork-bomb" export your preferred browser from here
-export BROWSER=/usr/bin/chromium-browser
+# export BROWSER=/usr/bin/chromium-browser
 export EDITOR=vim
 export TERM="xterm-256color"
 export GPG_TTY=$(tty)
@@ -150,3 +150,7 @@ PS1="$PS1\n\\$ "
 unset sep
 
 ############ }}}
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

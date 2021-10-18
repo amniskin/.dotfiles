@@ -1,6 +1,6 @@
 #!/bin/bash
 
-script_home=$(dirname $(realpath 0))
+script_home=$(dirname $(realpath $0))
 tmpdir=$HOME/Documents/installScriptTmp
 usage() {
     local name=$(basename $0)
