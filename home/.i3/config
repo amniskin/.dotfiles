@@ -97,13 +97,13 @@ bindsym $mod+Ctrl+m exec i3-sensible-terminal -e 'alsamixer'
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
-bindsym XF86MonBrightnessUp exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh SET UP)\\" Brightness"
-bindsym XF86MonBrightnessDown exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh SET DOWN)\\" Brightness"
+bindsym XF86MonBrightnessUp exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh +)\\" Brightness"
+bindsym XF86MonBrightnessDown exec "notify-send -c device -u low \\"$(~/.dotfiles/bin/brightness.sh -)\\" Brightness"
 
 # Start Applications
 bindsym $mod+Ctrl+space exec kcalc
 bindsym $mod+Ctrl+b exec i3-sensible-terminal -e 'bmenu'
-bindsym $mod+c exec chromium-browser # palemoon
+bindsym $mod+c exec x-www-browser # chromium-browser # palemoon
 bindsym $mod+n exec nautilus  # pcmanfm
 # bindsym $mod+F3 exec ranger
 # bindsym $mod+Shift+F3 exec gksu pcmanfm
@@ -391,7 +391,7 @@ exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
-exec --no-startup-id feh --bg-scale /home/amniskin/Pictures/black_white_background_theTree.png
+exec --no-startup-id feh --bg-scale /home/amniskin/Pictures/artistic-spikey-ball-bird.jpg
 
 ################ }}}
 
