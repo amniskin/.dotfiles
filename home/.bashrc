@@ -181,12 +181,10 @@ _last_status_prompt() {
 
 PS1="\$(_last_status_prompt)"
 
-if [ ! -z $(which conda) ]; then
-	_active_conda_env(){
-		echo $CONDA_DEFAULT_ENV
-	}
-	PS1="$PS1 $sep [\e[1;35m\$(_active_conda_env)\e[0m]"
-fi
+_active_conda_env(){
+  echo ${CONDA_DEFAULT_ENV:-NA}
+}
+PS1="$PS1 $sep [\e[1;35m\$(_active_conda_env)\e[0m]"
 
 PS1="$PS1 $sep \[\e[01;34m\]\w\[\e[0m\] $sep \e[36mjobs:\j \e[0m"
 
