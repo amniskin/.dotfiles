@@ -182,7 +182,7 @@ _last_status_prompt() {
 PS1="\$(_last_status_prompt)"
 
 _active_conda_env(){
-  echo ${CONDA_DEFAULT_ENV:-NA}
+  echo $CONDA_DEFAULT_ENV
 }
 PS1="$PS1 $sep [\e[1;35m\$(_active_conda_env)\e[0m]"
 
