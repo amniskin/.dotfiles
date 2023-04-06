@@ -1,8 +1,3 @@
-# enable color support of ls and also add handy aliases
-# eval "$(dircolors -b ~/.dotfiles/home/.dir_colors)" || eval "$(dircolors -b)"
-# to make new colors, run `dircolors -b ~/.dotfiles/dir_colors`
-export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:';
-
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 alias ls='ls --color=auto'
@@ -26,58 +21,3 @@ alias free='free -m' # show sizes in MB
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-alias skype='chromium --app=https://web.skype.com'
-
-mp() {
-	if [ ! -d "$2" ]; then
-		mkdir -p $2
-		echo "----"
-		echo "making directory $2"
-		echo "----"
-	fi
-	mv "$1" "$2"
-}
-
-mkcd() {
-	if [ ! -d "$1" ]; then
-		mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
-	fi
-}
-
-# # ex - archive extractor
-# # usage: ex <file>
-ex () {
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1   ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
-
-
-# Ruby exports
-#
-export GEM_HOME=$HOME/gems
-export PATH=$HOME/gems/bin:$PATH
-export BOTO_DISABLE_COMMONNAME=true
-
-complete -o default -C $(which aws_completer) aws
-source <(kubectl completion bash)
-
-export PATH="$HOME/.bin:$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
-export MANWIDTH=80

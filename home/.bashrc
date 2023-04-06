@@ -16,12 +16,6 @@ case $- in
 	*) return;;
 esac
 
-# Don't know what it does yet {{{
-##  xhost +local:root > /dev/null 2>&1
-
-complete -cf sudo
-#################}}}
-
 # bash history {{{
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -107,6 +101,18 @@ if [ -d $compDir ]; then
 fi
 unset compDir
 
+complete -cf sudo
+
+complete -o default -C $(which aws_completer) aws
+
+if [ $(which kubectl) ]; then
+  source <(kubectl completion bash)
+fi
+
+if [ -f /usr/bin/nomad ]; then
+	complete -C /usr/bin/nomad nomad
+fi
+
 # ignore __pycache__ from autocomplete
 export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
@@ -162,7 +168,56 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-complete -C /usr/bin/nomad nomad
+mp() {
+	if [ ! -d "$2" ]; then
+		mkdir -p $2
+		echo "----"
+		echo "making directory $2"
+		echo "----"
+	fi
+	mv "$1" "$2"
+}
+
+mkcd() {
+	if [ ! -d "$1" ]; then
+		mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
+	fi
+}
+
+# # ex - archive extractor
+# # usage: ex <file>
+ex () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1   ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# enable color support of ls and also add handy aliases
+# eval "$(dircolors -b ~/.dotfiles/home/.dir_colors)" || eval "$(dircolors -b)"
+# to make new colors, run `dircolors -b ~/.dotfiles/dir_colors`
+export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:';
+
+
+export GEM_HOME=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
+export BOTO_DISABLE_COMMONNAME=true
+export PATH="$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
+export MANWIDTH=80
 
 if [ -f "$HOME/.bashrc.ext" ]; then
 	source "$HOME/.bashrc.ext"
