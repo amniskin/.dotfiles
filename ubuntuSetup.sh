@@ -41,7 +41,13 @@ logFile="$tmpdir/log.txt"
 echo "updating repos..."
 sudo apt-get update >> $logFile
 
+sudo add-get install -y software-properties-common >> $logFile
+sudo add-apt-repository -y ppa:deadsnakes/ppa >> $logFile
+sudo apt-get update >> $logFile
 sudo apt-get install -y vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags >> $logFile
+
+pip install pipx >> $logFile
+pipx install hatch >> $logFile
 
 git config --global user.email "amniskin@gmail.com" &&
     git config --global user.name "Aaron Niskin"
@@ -75,7 +81,8 @@ vim +PluginInstall +qall
 cd $tmpdir &&
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&
     unzip awscliv2.zip &&
-    sudo ./aws/install
+    sudo ./aws/install &&
+    rm -rf ./aws awscliv2.zip
 cd $HOME
 
 sudo bash -c "cd /usr/local/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot"

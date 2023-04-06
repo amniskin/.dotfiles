@@ -1,86 +1,65 @@
-#define S_base03        #002b36
-#define S_base02        #073642
-#define S_base01        #586e75
-#define S_base00        #657b83
-#define S_base0         #839496
-#define S_base1         #93a1a1
-#define S_base2         #eee8d5
-#define S_base3         #fdf6e3
-
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
-
-#define light_cyan      #68D6F5
-#define ultra_light_cyan        #C2EBFA
-#define light_green     #68ECAF
-#define light_yellow    #EEFF94
-#define transparent     #00000000
-
-!! " " or "-t"
-*transparentbar:        "-t"
-
-*barbg:                 transparent
-*barstatus:             transparent
-*background:            S_base03
-*foreground:            S_base01
-*fadeColor:             black
-*opaquebg:              S_base03
-
-!! st opacity (0.0-1.0)
-*stalpha:               0.7
-
-*cursorColor:           S_base1
-*pointerColorBackground:S_base01
-*pointerColorForeground:S_base1
-
-ssh-askpass.Dialog.dialog.background: #002b36
-ssh-askpass.Dialog.dialog.foreground: #839496
-ssh-askpass.Button.background: #002b36
-ssh-askpass.Button.foreground: #839496
-ssh-askpass.Button.topShadow: #073642
-ssh-askpass.Indicator.background: #002b36
-ssh-askpass.Indicator.foreground: #839496
-
-!! solarized dark
-
-!! black dark/light
-*color0:                S_base02
-*color8:                S_base03
-
-!! red dark/light
-*color1:                S_red
-*color9:                S_orange
-
-!! green dark/light
-*color2:                light_green
-*color10:               S_base01
-
-!! yellow dark/light
-*color3:                light_yellow
-*color11:               light_cyan
-
-!! blue dark/light
-*color4:                S_blue
-*color12:               ultra_light_cyan
-
-!! magenta dark/light
-*color5:                S_magenta
-*color13:               S_violet
-
-!! cyan dark/light
-*color6:                S_cyan
-*color14:               S_base1
-
-!! white dark/light
-*color7:                ultra_light_cyan
-*color15:               ultra_light_cyan
-
-
-Emacs*Background: S_base02
-Emacs*Foreground: S_base01
+!
+#define _fg_color  #f7f7f7
+#define _bg_color  #000000
+! Black
+#define _black0    #000000
+#define _grey      #777777
+#define _red0      #aa3731
+#define _red1      #f05050
+#define _green0    #448c27
+#define _green1    #60cb00
+#define _yellow0   #cb9000
+#define _yellow1   #ffbc5d
+#define _blue0     #325cc0
+#define _blue1     #007acc
+#define _magenta0  #be8c98
+! #7a3e9d
+#define _magenta1  #e64ce6
+#define _cyan0     #8cbeb2
+#define _cyan1     #539484
+#define _white0    #f7f7f7
+#define _white1    #f2ebbf
+!
+*foreground:  _fg_color
+*background:  _bg_color
+*cursorColor: #007acc
+!
+!Black
+*color0:      _black0
+*color8:      _grey
+!
+!Red
+*color1:      _red0
+*color9:      _red1
+!
+!Green
+*color2:      _green0
+*color10:     _green1
+!
+!Yellow
+*color3:      _yellow0
+*color11:     _yellow1
+!
+!Blue
+*color4:      _blue0
+*color12:     _blue1
+!
+!Magenta
+*color5:      _magenta0
+*color13:     _magenta1
+!
+!Cyan
+*color6:      _cyan0
+*color14:     _cyan1
+!
+!White
+*color7:      _white0
+*color15:     _white1
+!
+!Bold, Italic, Underline
+*colorBD:     #000000
+!*.colorIT:
+!*.colorUL:
+*barbg:                    transparent
+*barstatus:                transparent
+*stalpha:                  0.7

@@ -99,6 +99,14 @@ if [ -d $compDir ]; then
 fi
 unset compDir
 
+compDir="$HOME/.local/completions"
+if [ -d $compDir ]; then
+	for file in $compDir/* ; do
+		source $file 2> /dev/null
+	done
+fi
+unset compDir
+
 # ignore __pycache__ from autocomplete
 export GLOBIGNORE="$GLOBIGNORE"__pycache__
 
@@ -106,7 +114,6 @@ export GLOBIGNORE="$GLOBIGNORE"__pycache__
 use_color=true
 
 unset use_color safe_term match_lhs sh
-############ }}}
 
 # PS1 {{{
 sep="\e[0m\e[1m|\e[0m"
@@ -154,3 +161,9 @@ unset sep
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+complete -C /usr/bin/nomad nomad
+
+if [ -f "$HOME/.bashrc.ext" ]; then
+	source "$HOME/.bashrc.ext"
+fi

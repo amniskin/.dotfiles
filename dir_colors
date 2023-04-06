@@ -1,3 +1,4 @@
+# vi: ft=dircolors
 # Configuration file for the color ls utility
 # This file goes in the /etc directory, and must be world readable.
 # You can copy this file to .dir_colors in your $HOME directory to override
@@ -53,7 +54,8 @@ EIGHTBIT 1
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
 NORMAL 00	# global default, although everything should be something.
 FILE 00 	# normal file
-DIR 01;32 	# directory
+DIR 01;35
+# DIR 02;36
 LINK 01;36 	# symbolic link
 FIFO 40;33	# pipe
 SOCK 01;35	# socket

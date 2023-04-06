@@ -9,6 +9,9 @@ Plugin 'gmarik/Vundle.vim'
 "
 " "}}}
 " Plugins {{{
+" Syntax highlighting
+Plugin 'sheerun/vim-polyglot'
+
 " " GnuPG Encription
 Plugin 'jamessan/vim-gnupg'
 Plugin 'scrooloose/nerdtree'
@@ -24,7 +27,7 @@ Plugin 'mattn/webapi-vim'
 " Pandoc things
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'vim-pandoc/vim-rmarkdown'
+Plugin 'vim-latex/vim-latex'
 "
 " git
 Plugin 'tpope/vim-fugitive'
@@ -38,50 +41,30 @@ Plugin 'mattn/gist-vim'
 Plugin 'ervandew/supertab'
 "
 " " editing
-" Plugin 'alpertuna/vim-header'
-Plugin 'jpalardy/vim-slime'
 "Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 "
-" " helpers
-Plugin 'tpope/vim-speeddating'
-Plugin 'jceb/vim-orgmode'
-Plugin 'mattn/calendar-vim'
-" Plugin 'vim-scripts/vim-orgmode'
-
-" required by orgmode
 Plugin 'vim-scripts/utl.vim'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'vim-scripts/repeat.vim'
-" Plugin 'vim-scripts/tagbar.vim'
-Plugin 'vim-scripts/speeddating.vim'
-Plugin 'inkarkat/vim-SyntaxRange'
 Plugin 'majutsushi/tagbar'
-Plugin 'chrisbra/NrrwRgn'
-"
-" " html
-"Plugin 'mattn/emmet-vim'
 "
 " " Python
 Plugin 'vim-scripts/indentpython.vim'
-" Plugin 'jalvesaq/nvim-r'
 
 " " Rust
-Plugin 'rust-lang/rust.vim'
+" Plugin 'rust-lang/rust.vim'
 
 Plugin 'sillybun/vim-repl'
 
 " " Linters
-" Plugin 'vim-scripts/pylint.vim'
-Plugin 'vim-syntastic/syntastic'
-" Plugin 'aclaimant/syntastic-joker'
-" Plugin 'PyCQA/flake8'
+Plugin 'dense-analysis/ale'
 
 " " clojure
 Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
-Plugin 'guns/vim-clojure-static'
-Plugin 'guns/vim-clojure-highlight'
+" Plugin 'guns/vim-clojure-static'
+" Plugin 'guns/vim-clojure-highlight'
 " " Clojure repl
 Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-salve'
@@ -148,21 +131,6 @@ colorscheme distinguished
 " Sliming {{{
 let g:slime_target = "tmux"
 " }}}
-" linting {{{
-"" let g:syntastic_<filetype>_checkers = ['<checker-name>']
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_clojure_checkers = ['syntastic-joker']
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_check_on_w  = 1
-" }}}
 " {{{ vim-header
 " let g:header_field_author = 'Aaron Niskin'
 " let g:header_field_author_email = 'aaron@niskin.org'
@@ -171,6 +139,7 @@ let g:syntastic_check_on_w  = 1
 " let g:header_exclude_file_types = ['rst']
 " }}}
 " Powerline {{{
+let g:python_highlight_all = 1
 " python3 from powerline.vim import setup as powerline_setup
 " python3 powerline_setup()
 " python3 del powerline_setup
@@ -194,19 +163,20 @@ set laststatus=2 				     " To have airline show allways
 augroup indentguides
 	autocmd!
 	set background=dark
-	let g:indent_guides_enable_on_vim_startup = 1        " doit when vim starts
+	let g:indent_guides_enable_on_vim_startup = 0        " doit when vim starts
 	let g:indent_guides_auto_colors = 1                  " guide colors set by colorscheme
 	let g:indent_guides_exclude_filetypes = ['help']     " don't doit to these
 	let g:indent_guides_start_level = 1                  " start level
 augroup END
 " " }}}
 " General options{{{
+let mapleader = "["
 augroup vanilla
 	autocmd!
-	autocmd BufRead,BufNewFile * let mapleader = "\\"
 	" Standard things
 	autocmd BufRead,BufNewFile * set wrap linebreak breakindent autoindent foldmethod=marker noshowmode number relativenumber ignorecase smartcase backup noswapfile backupdir=~/.vim-tmp sw=2 ts=2 sts=2 expandtab
 	" Keybindings
+	autocmd BufRead,BufNewFile * noremap <leader>a :ALENextWrap<CR>
 	autocmd BufRead,BufNewFile * noremap <leader>r :REPLToggle<CR>
 	autocmd BufRead,BufNewFile * noremap <leader>n :NERDTreeToggle<CR>
 	autocmd BufRead,BufNewFile * noremap <leader>ev :vsplit $MYVIMRC<CR>
@@ -226,15 +196,18 @@ augroup END
 augroup fileAssociations
 	autocmd!
 	" File-extension / FileType Associations
-	autocmd BufRead,BufNewFile *.cljs.hl,*.boot set filetype=clojure
-	autocmd BufRead,BufNewFile *.md             set filetype=markdown
-	autocmd BufRead,BufNewFile *.org            set filetype=org
-	autocmd BufRead,BufNewFile *.yaml,*.yml     set filetype=yaml
-	autocmd BufRead,BufNewFile *.py             set filetype=python
-	autocmd BufRead,BufNewFile *.rs             set filetype=rust
-	autocmd BufRead,BufNewFile *.asc            set filetype=gpg
-	autocmd BufRead,BufNewFile *.h,*.c,*.cpp    set filetype=cpp
-	autocmd BufRead,BufNewFile *.conf           set filetype=conf
+	autocmd BufRead,BufNewFile *.hcl,*.hcl.tpl     set filetype=hcl
+	autocmd BufRead,BufNewFile *.nomad,*.nomad.tpl set filetype=hcl
+	autocmd BufRead,BufNewFile *.pkr,*.pkr.tpl     set filetype=hcl
+	autocmd BufRead,BufNewFile *.cljs.hl,*.boot    set filetype=clojure
+	autocmd BufRead,BufNewFile *.md                set filetype=markdown
+	autocmd BufRead,BufNewFile *.org               set filetype=org
+	autocmd BufRead,BufNewFile *.yaml,*.yml        set filetype=yaml
+	autocmd BufRead,BufNewFile *.py                set filetype=python
+	autocmd BufRead,BufNewFile *.rs                set filetype=rust
+	autocmd BufRead,BufNewFile *.asc               set filetype=gpg
+	autocmd BufRead,BufNewFile *.h,*.c,*.cpp       set filetype=cpp
+	autocmd BufRead,BufNewFile *.conf              set filetype=conf
 	" FileType specific setlocals
 	autocmd Filetype org        setlocal tw=72 noexpandtab
 	autocmd FileType gitcommit  setlocal tw=72
@@ -245,11 +218,11 @@ augroup fileAssociations
 	autocmd FileType clojure    setlocal sw=2 ts=2 sts=2 lispwords+=page,cell-let,this-as,add-watch
 	autocmd FileType javascript setlocal sw=2 ts=2 sts=2 expandtab
 	autocmd FileType java       setlocal sw=4 ts=4 sts=4 noexpandtab
-	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai expandtab
+	autocmd FileType python     setlocal sw=4 ts=4 sts=4 ai expandtab formatprg=autopep8\ -
 	autocmd FileType python     set omnifunc=pythoncomplete#Complete
 	autocmd FileType rust       setlocal sw=4 ts=4 sts=4 ai expandtab
 	autocmd FileType yaml       setlocal sw=2 ts=2 sts=2 expandtab
-	autocmd FileType sh         setlocal sw=4 ts=4 sts=4 noexpandtab
+	autocmd FileType sh         setlocal sw=2 ts=2 sts=2 noexpandtab
 	autocmd FileType json       setlocal sw=4 ts=4 sts=4 noexpandtab
 
 	" FileType specific keybindings

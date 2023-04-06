@@ -1,5 +1,7 @@
 # enable color support of ls and also add handy aliases
-eval "$(dircolors -b ~/.dotfiles/home/.dir_colors)" || eval "$(dircolors -b)"
+# eval "$(dircolors -b ~/.dotfiles/home/.dir_colors)" || eval "$(dircolors -b)"
+# to make new colors, run `dircolors -b ~/.dotfiles/dir_colors`
+export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:';
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -27,8 +29,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 alias skype='chromium --app=https://web.skype.com'
 
-function mp ()
-{
+mp() {
 	if [ ! -d "$2" ]; then
 		mkdir -p $2
 		echo "----"
@@ -37,8 +38,8 @@ function mp ()
 	fi
 	mv "$1" "$2"
 }
-function mkcd ()
-{
+
+mkcd() {
 	if [ ! -d "$1" ]; then
 		mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
 	fi
@@ -46,8 +47,7 @@ function mkcd ()
 
 # # ex - archive extractor
 # # usage: ex <file>
-ex ()
-{
+ex () {
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xjf $1   ;;
@@ -74,8 +74,10 @@ export PYTHONPATH="$PYTHONPATH:$HOME/.pylibs/"
 #
 export GEM_HOME=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
+export BOTO_DISABLE_COMMONNAME=true
 
-complete -C $(which aws_completer) aws
+complete -o default -C $(which aws_completer) aws
+source <(kubectl completion bash)
 
 export PATH="$HOME/.bin:$PATH:$HOME/.local/bin:$HOME/.gem/ruby/2.5.0/bin"
 export MANWIDTH=80
