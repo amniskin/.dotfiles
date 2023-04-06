@@ -21,24 +21,24 @@ export MANWIDTH=80
 
 # If not running interactively, don't do anything
 case $- in
-	*i*) ;;
-	*) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 mp() {
-	if [ ! -d "$2" ]; then
-		mkdir -p $2
-		echo "----"
-		echo "making directory $2"
-		echo "----"
-	fi
-	mv "$1" "$2"
+  if [ ! -d "$2" ]; then
+    mkdir -p $2
+    echo "----"
+    echo "making directory $2"
+    echo "----"
+  fi
+  mv "$1" "$2"
 }
 
 mkcd() {
-	if [ ! -d "$1" ]; then
-		mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
-	fi
+  if [ ! -d "$1" ]; then
+    mkdir -p "$1" && cd "$1" && echo "Made new directory at $(pwd)"
+  fi
 }
 
 # # ex - archive extractor
@@ -82,7 +82,7 @@ shopt -s expand_aliases
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 if [ -f $HOME/.bash_aliases ]; then
-	. $HOME/.bash_aliases
+  . $HOME/.bash_aliases
 fi
 
 # zerkenv {{{
@@ -125,26 +125,26 @@ complete -F _zerkload zerkload
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 # if ! shopt -oq posix; then
-# 	if [ -f /usr/share/bash-completion/bash_completion ]; then
-# 		. /usr/share/bash-completion/bash_completion
-# 	elif [ -f /etc/bash_completion ]; then
-# 		. /etc/bash_completion
-# 	fi
+#   if [ -f /usr/share/bash-completion/bash_completion ]; then
+#     . /usr/share/bash-completion/bash_completion
+#   elif [ -f /etc/bash_completion ]; then
+#     . /etc/bash_completion
+#   fi
 # fi
 
 # compDir="/usr/share/bash-completion/completions"
 # if [ -d $compDir ]; then
-# 	for file in $compDir/* ; do
-# 		source $file 2> /dev/null
-# 	done
+#   for file in $compDir/* ; do
+#     source $file 2> /dev/null
+#   done
 # fi
 # unset compDir
 
 compDir="$HOME/.local/completions"
 if [ -d $compDir ]; then
-	for file in $compDir/* ; do
-		source $file 2> /dev/null
-	done
+  for file in $compDir/* ; do
+    source $file 2> /dev/null
+  done
 fi
 unset compDir
 
@@ -157,7 +157,7 @@ if [ $(which kubectl) ]; then
 fi
 
 if [ -f /usr/bin/nomad ]; then
-	complete -C /usr/bin/nomad nomad
+  complete -C /usr/bin/nomad nomad
 fi
 
 # ignore __pycache__ from autocomplete
@@ -171,12 +171,12 @@ unset use_color safe_term match_lhs sh
 # PS1 {{{
 sep="\e[0m\e[1m|\e[0m"
 _last_status_prompt() {
-	local ret_stat=$?
-	if [ $ret_stat = 0 ]; then
-		echo -e "\e[32m^_^\e[0m"
-	else
-		echo -e "\e[31m\e[1mO_O $ret_stat\e[0m"
-	fi
+  local ret_stat=$?
+  if [ $ret_stat = 0 ]; then
+    echo -e "\e[32m^_^\e[0m"
+  else
+    echo -e "\e[31m\e[1mO_O $ret_stat\e[0m"
+  fi
 }
 
 PS1="\$(_last_status_prompt)"
@@ -189,18 +189,18 @@ PS1="$PS1 $sep [\e[1;35m\$(_active_conda_env)\e[0m]"
 PS1="$PS1 $sep \[\e[01;34m\]\w\[\e[0m\] $sep \e[36mjobs:\j \e[0m"
 
 if [ $(which zerkenv) ]; then
-	_zerkenv_prompt() {
-		local out=""
-		for e in $(zerkenv); do
-			out="$out[\e[1;35m$e\e[0m]"
-		done
-		echo -e $out
-	}
-	PS1="$PS1 $sep \$(_zerkenv_prompt)"
+  _zerkenv_prompt() {
+    local out=""
+    for e in $(zerkenv); do
+      out="$out[\e[1;35m$e\e[0m]"
+    done
+    echo -e $out
+  }
+  PS1="$PS1 $sep \$(_zerkenv_prompt)"
 fi
 
 if [ -f ~/.dotfiles/bin/_bashgit.sh ]; then
-	. ~/.dotfiles/bin/_bashgit.sh
+  . ~/.dotfiles/bin/_bashgit.sh
 fi
 PS1="$PS1 $sep \$(_bashgit_prompt)"
 PS1="$PS1\n\\$ "
@@ -214,5 +214,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [ -f "$HOME/.bashrc.ext" ]; then
-	source "$HOME/.bashrc.ext"
+  source "$HOME/.bashrc.ext"
 fi
