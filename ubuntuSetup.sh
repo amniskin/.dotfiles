@@ -42,7 +42,7 @@ echo "updating repos..."
 sudo apt-get update >> $logFile
 
 sudo apt-get install -y software-properties-common >> $logFile
-sudo apt-apt-repository -y ppa:deadsnakes/ppa >> $logFile
+sudo add-apt-repository -y ppa:deadsnakes/ppa >> $logFile
 sudo apt-get update >> $logFile
 sudo apt-get install -y vim git python3-dev python3-pip python3-virtualenv curl jekyll tree gnupg ninvaders gcc g++ pandoc default-jre default-jdk tmux suckless-tools ctags >> $logFile
 
