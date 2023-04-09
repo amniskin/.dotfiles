@@ -110,15 +110,6 @@ nmap <silent> <leader>pR :TREPLSendFile<CR>
 " nmap <silent> <leader>pe vie:TREPLSendSelection<CR>
 xmap <silent> <leader>pp :TREPLSendSelection<CR>
 " }}}
-" vim-orgmode {{{
-let g:org_indent = 0
-let g:org_todo_keywords = [['TODO(t)', 'PROCESSING(p)', '|', 'DONE(d)'], ['|', 'CANCELED(c)']]
-let g:org_todo_keyword_faces = [['IN-PROGRESS', 'cyan'],
-			      \ ['CANCELED', [':foreground red', ':background black', ':weight bold',
-			      \   ':slant italic', ':decoration underline']]]
-
-let g:org_agenda_files = ['~/code/*/*/*.org', '~/index.org']
-" }}}
 " vim-repl {{{
 " }}}
 " color scheme{{{
@@ -128,15 +119,8 @@ syntax on "enable
 colorscheme distinguished
 " colorscheme github
 " " }}}
-" Sliming {{{
-let g:slime_target = "tmux"
-" }}}
-" {{{ vim-header
-" let g:header_field_author = 'Aaron Niskin'
-" let g:header_field_author_email = 'aaron@niskin.org'
-" let g:header_field_filename = 0
-" let g:header_field_timestamp_format = '%Y-%m-%d'
-" let g:header_exclude_file_types = ['rst']
+" tagbar {{{
+nmap <leader>t :TagbarToggle<CR>
 " }}}
 " Powerline {{{
 let g:python_highlight_all = 1
